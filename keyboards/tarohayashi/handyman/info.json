@@ -4,24 +4,22 @@
     "maintainer": "hayashi",
     "url": "https://github.com/Taro-Hayashi/Handyman/blob/main/README.md",
     "usb": {
-        "vid": "0x8884",
+        "vid": "0xFEED",
         "pid": "0x0888",
         "device_version": "1.0.0"
     },
     "processor": "atmega32u4",
     "bootloader": "caterina",
     "features": {
-        "extrakey": true
+        "extrakey": true,
+        "rgblight": true
     },
     "bootmagic": {
         "enabled": true
     },
-    "build": {
-        "lto": true
-    },
     "matrix_pins": {
-        "cols": ["F4", "F5", "F6", "F7", "B1"],
-        "rows": ["B6", "B2", "B3", "B5", "B4", "E6"]
+        "cols": ["F4", "F5", "F6", "F7", "B1",        "C7", "D6"],
+        "rows": ["B6", "B2", "B3", "B5", "B4", "E6",  "B7", "F0", "F1"]
     },
     "diode_direction": "ROW2COL",
     "encoder": {
@@ -62,7 +60,13 @@
                 { "label": "SHIFT", "matrix": [4, 4], "x": 4, "y": 4.5 },
                 { "label": "L", "matrix": [5, 0], "x": 4, "y": 5 },
                 { "label": "PU", "matrix": [5, 2], "x": 4, "y": 5 },
-                { "label": "R", "matrix": [5, 4], "x": 4, "y": 5 }
+                { "label": "R", "matrix": [5, 4], "x": 4, "y": 5 },
+                { "matrix": [6, 5], "x": 2, "y": 5.5 },
+                { "matrix": [6, 6], "x": 2.5, "y": 4.5 },
+                { "matrix": [7, 5], "x": 4, "y": 4.5 },
+                { "matrix": [7, 6], "x": 4, "y": 5 },
+                { "matrix": [8, 5], "x": 4, "y": 5 },
+                { "matrix": [8, 6], "x": 4, "y": 5 }
             ]
         }
     },
@@ -75,16 +79,16 @@
     "rgblight": {
         "led_count": 34,
         "animations": {
-            "alternating": false,
-            "breathing": false,
-            "christmas": false,
-            "knight": false,
-            "rainbow_mood": false,
-            "rainbow_swirl": false,
-            "rgb_test": false,
-            "snake": false,
-            "static_gradient": false,
-            "twinkle": false
+            "alternating": true,
+            "breathing": true,
+            "christmas": true,
+            "knight": true,
+            "rainbow_mood": true,
+            "rainbow_swirl": true,
+            "rgb_test": true,
+            "snake": true,
+            "static_gradient": true,
+            "twinkle": true
         }
     }
 }

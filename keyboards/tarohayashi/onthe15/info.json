@@ -17,9 +17,6 @@
     "bootmagic": {
         "enabled": true
     },
-    "build": {
-        "lto": true
-    },
     "matrix_pins": {
         "cols": ["B0", "B1", "B2", "B3", "B4", "B5", "B6", "B7"],
         "rows": ["D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "F2"]
@@ -117,16 +114,16 @@
     "rgblight": {
         "led_count": 24,
         "animations": {
-            "alternating": false,
-            "breathing": false,
-            "christmas": false,
-            "knight": false,
-            "rainbow_mood": false,
-            "rainbow_swirl": false,
-            "rgb_test": false,
-            "snake": false,
-            "static_gradient": false,
-            "twinkle": false
+            "alternating": true,
+            "breathing": true,
+            "christmas": true,
+            "knight": true,
+            "rainbow_mood": true,
+            "rainbow_swirl": true,
+            "rgb_test": true,
+            "snake": true,
+            "static_gradient": true,
+            "twinkle": true
         }
     }
 }

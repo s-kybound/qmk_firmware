@@ -11,18 +11,16 @@
     "processor": "atmega32u4",
     "bootloader": "caterina",
     "features": {
-        "extrakey": true
+        "extrakey": true,
+        "rgblight": true
     },
     "bootmagic": {
         "enabled": true,
         "matrix": [0,4]
     },
-    "build": {
-        "lto": true
-    },
     "matrix_pins": {
-        "cols": ["B6", "B2", "B3", "B1", "F7"],
-        "rows": ["D4", "C6", "D7", "E6"]
+        "cols": ["B6", "B2", "B3", "B1", "F7",   "C7", "D6"],
+        "rows": ["D4", "C6", "D7", "E6",         "B7", "F0", "F1"]
     },
     "diode_direction": "ROW2COL",
     "encoder": {
@@ -53,7 +51,14 @@
                 { "label": "ENTER", "matrix": [2, 4], "h": 2, "x": 4, "y": 2 },
                 { "label": "L", "matrix": [3, 0], "x": 0, "y": 2 },
                 { "label": "PU", "matrix": [3, 2], "x": 0, "y": 2 },
-                { "label": "R", "matrix": [3, 4], "x": 0, "y": 2 }
+                { "label": "R", "matrix": [3, 4], "x": 0, "y": 2 },
+
+                { "label": "DOWN", "matrix": [4, 5], "x": 2, "y": 2 },
+                { "label": "RIGHT", "matrix": [4, 6], "x": 3, "y": 2 },
+                { "label": "ENTER", "matrix": [5, 5], "h": 2, "x": 4, "y": 2 },
+                { "label": "L", "matrix": [5, 6], "x": 0, "y": 2 },
+                { "label": "PU", "matrix": [6, 5], "x": 0, "y": 2 },
+                { "label": "R", "matrix": [6, 6], "x": 0, "y": 2 }
             ]
         }
     },  
@@ -63,16 +68,16 @@
     "rgblight": {
         "led_count": 12,
         "animations": {
-            "alternating": false,
-            "breathing": false,
-            "christmas": false,
-            "knight": false,
-            "rainbow_mood": false,
-            "rainbow_swirl": false,
-            "rgb_test": false,
-            "snake": false,
-            "static_gradient": false,
-            "twinkle": false
+            "alternating": true,
+            "breathing": true,
+            "christmas": true,
+            "knight": true,
+            "rainbow_mood": true,
+            "rainbow_swirl": true,
+            "rgb_test": true,
+            "snake": true,
+            "static_gradient": true,
+            "twinkle": true
         }
     }
 }
