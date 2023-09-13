@@ -34,6 +34,9 @@
     "mouse_key": {
         "enabled": true
     },
+    "tapping": {
+        "hold_on_other_key_press": true
+    },
     "layouts": {
         "LAYOUT": {
             "layout": [
@@ -49,10 +52,9 @@
                 { "label": "DOWN", "matrix": [2, 2], "x": 2, "y": 2 },
                 { "label": "RIGHT", "matrix": [2, 3], "x": 3, "y": 2 },
                 { "label": "ENTER", "matrix": [2, 4], "h": 2, "x": 4, "y": 2 },
-                { "label": "L", "matrix": [3, 0], "x": 0, "y": 2 },
+                { "label": "L", "matrix": [3, 4], "x": 0, "y": 2 },
                 { "label": "PU", "matrix": [3, 2], "x": 0, "y": 2 },
-                { "label": "R", "matrix": [3, 4], "x": 0, "y": 2 },
-
+                { "label": "R", "matrix": [3, 0], "x": 0, "y": 2 },
                 { "label": "DOWN", "matrix": [4, 5], "x": 2, "y": 2 },
                 { "label": "RIGHT", "matrix": [4, 6], "x": 3, "y": 2 },
                 { "label": "ENTER", "matrix": [5, 5], "h": 2, "x": 4, "y": 2 },
