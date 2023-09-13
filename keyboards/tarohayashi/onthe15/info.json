@@ -4,7 +4,7 @@
     "maintainer": "hayashi",
     "url": "https://github.com/Taro-Hayashi/On-the-15/blob/main/README.md",
     "usb": {
-        "vid": "0x8884",
+        "vid": "0xFEED",
         "pid": "0x0893",
         "device_version": "1.0.0"
     },
@@ -22,7 +22,7 @@
     },
     "matrix_pins": {
         "cols": ["B0", "B1", "B2", "B3", "B4", "B5", "B6", "B7"],
-        "rows": ["D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"]
+        "rows": ["D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "F2"]
     },
     "diode_direction": "COL2ROW",
     "encoder": {
@@ -96,7 +96,15 @@
                 { "matrix": [7, 3], "x": 11, "y": 4 },
                 { "matrix": [7, 4], "x": 12, "y": 4 },
                 { "matrix": [7, 5], "x": 13, "y": 4 },
-                { "matrix": [7, 6], "x": 14, "y": 4 }
+                { "matrix": [7, 6], "x": 14, "y": 4 },
+                { "matrix": [8, 0], "x": 8, "y": 4 },
+                { "matrix": [8, 1], "x": 9, "y": 4 },
+                { "matrix": [8, 2], "x": 10, "y": 4 },
+                { "matrix": [8, 3], "x": 11, "y": 4 },
+                { "matrix": [8, 4], "x": 12, "y": 4 },
+                { "matrix": [8, 5], "x": 13, "y": 4 },
+                { "matrix": [8, 6], "x": 14, "y": 4 },
+                { "matrix": [8, 7], "x": 14, "y": 4 }
             ]
         }
     },

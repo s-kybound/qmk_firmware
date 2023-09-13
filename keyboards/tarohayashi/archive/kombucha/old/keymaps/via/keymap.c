@@ -48,15 +48,18 @@
  void matrix_init_user(void) {
      init_paw3204();
  }
- keyevent_t encoder1_ccw = {
-     .key = (keypos_t){.row = 3, .col = 3},
-     .pressed = false
- };
 
- keyevent_t encoder1_cw = {
-     .key = (keypos_t){.row = 3, .col = 2},
-     .pressed = false
- };
+keyevent_t encoder1_ccw = {
+    .type = ENCODER_CCW_EVENT,
+    .key = (keypos_t){.row = 3, .col = 3},
+    .pressed = false
+};
+
+keyevent_t encoder1_cw = {
+    .type = ENCODER_CW_EVENT,
+    .key = (keypos_t){.row = 3, .col = 2},
+    .pressed = false
+};
 
  void matrix_scan_user(void) {
      static int  cnt;
@@ -92,32 +95,29 @@
              pointing_device_set_report(mouse_rep);
          }
      }
-     if (IS_PRESSED(encoder1_ccw)) {
-         encoder1_ccw.pressed = false;
-         encoder1_ccw.time = (timer_read() | 1);
-         action_exec(encoder1_ccw);
-     }
+     if (encoder1_ccw.pressed){
+        encoder1_ccw.pressed = false;
+        encoder1_ccw.time = (timer_read() | 1);
+        action_exec(encoder1_ccw);
+    }
 
-     if (IS_PRESSED(encoder1_cw)) {
-         encoder1_cw.pressed = false;
-         encoder1_cw.time = (timer_read() | 1);
-         action_exec(encoder1_cw);
-     }
+    if (encoder1_cw.pressed){
+        encoder1_cw.pressed = false;
+        encoder1_cw.time = (timer_read() | 1);
+        action_exec(encoder1_cw);
+    }
  }
-
-
-
 
 
  bool encoder_update_user(uint8_t index, bool clockwise) {
          if (clockwise) {
-             encoder1_cw.pressed = true;
-             encoder1_cw.time = (timer_read() | 1);
-             action_exec(encoder1_cw);
-         } else {
-             encoder1_ccw.pressed = true;
-             encoder1_ccw.time = (timer_read() | 1);
-             action_exec(encoder1_ccw);
-         }
-         return true;
+            encoder1_cw.pressed = true;
+            encoder1_cw.time = (timer_read() | 1);
+            action_exec(encoder1_cw);
+        } else {
+            encoder1_ccw.pressed = true;
+            encoder1_ccw.time = (timer_read() | 1);
+            action_exec(encoder1_ccw);
+        }
+         return false;
        }
