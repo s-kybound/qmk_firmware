@@ -12,7 +12,8 @@
     "bootloader": "caterina",
     "features": {
         "extrakey": true,
-        "rgblight": true
+        "rgblight": true,
+        "midi": true
     },
     "bootmagic": {
         "enabled": true,
@@ -30,6 +31,12 @@
             { "pin_a": "B5", "pin_b": "F4", "resolution": 4},
             { "pin_a": "F5", "pin_b": "F6", "resolution": 4}
         ]
+    },
+    "dynamic_keymap": {
+        "layer_count": 6
+    },
+    "build": {
+        "lto": true
     },
     "mouse_key": {
         "enabled": true

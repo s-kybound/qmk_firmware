@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include QMK_KEYBOARD_H
+#include "addkeycodes.h"
 
-enum layerID {
+enum layer_names {
   BASE = 0,
   LOWER,
-  UPPER,
-  LIGHT,
+  LIGHT = 5,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -21,14 +21,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_F6,  KC_F7,  KC_F8,  KC_F9,  KC_F10, LT(LOWER, KC_GRAVE),
     KC_F11, KC_F12,XXXXXXX,XXXXXXX,XXXXXXX, XXXXXXX
   ),
-  [UPPER] = LAYOUT(
-       XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,
-    XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,
-    XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX
-  ),
   [LIGHT] = LAYOUT(
        RGB_RMOD,XXXXXXX,XXXXXXX,RGB_MOD,LT(LIGHT, KC_F5),
     XXXXXXX,RGB_HUI,RGB_SAI,RGB_VAI,RGB_SPI,XXXXXXX,
     RGB_TOG,RGB_HUD,RGB_SAD,RGB_VAD,RGB_SPD,XXXXXXX
   ),
 };
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    process_record_addedkeycodes(keycode, record);
+    return true;
+}

@@ -28,6 +28,12 @@
     "mouse_key": {
         "enabled": true
     },
+    "dynamic_keymap": {
+        "layer_count": 6
+    },
+    "tapping": {
+        "hold_on_other_key_press": true
+    },
     "diode_direction": "ROW2COL",
     "layouts": {
         "LAYOUT": {

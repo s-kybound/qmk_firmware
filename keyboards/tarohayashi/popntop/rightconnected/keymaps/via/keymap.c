@@ -3,7 +3,7 @@
 
 #include QMK_KEYBOARD_H
 
-enum layerID {
+enum layer_names {
   BASE = 0,
   LOWER,
   UPPER,

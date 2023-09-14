@@ -2,46 +2,27 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include QMK_KEYBOARD_H
+#include "addkeycodes.h"
+#include "addencoders.h"
+
 enum custom_keycode {
   BASE = 0,
-  LOWER,
-  UPPER,
-  LIGHT,
+  LIGHT = 5,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  [BASE] = LAYOUT(
-        LCTL(KC_S), LCTL(KC_L), RCS(KC_N), LCTL(KC_U), KC_BSPC,
+    [BASE] = LAYOUT(
+        SAVE, LCTL(KC_L), RCS(KC_N), LCTL(KC_U), KC_BSPC,
         LSFT(KC_F7), LCTL(KC_M), LCTL(KC_T), KC_M, LCTL(KC_D),
-        KC_X, KC_F13, LCTL(KC_Z), KC_F14, LCTL(KC_0),
+        KC_X, KC_F13, UNDO, KC_F14, SC_RESET,
         KC_O, KC_S, KC_Y, KC_I, KC_F15,
         LCTL(KC_H), LT(LIGHT, KC_U), LALT_T(KC_E), LCTL_T(KC_B), LSFT_T(KC_P),
         // LEVER
         KC_T, KC_G, KC_J,
-        
-        LCTL(KC_KP_PLUS),LCTL(KC_KP_MINUS), KC_RBRC, KC_LBRC, KC_MINS, KC_QUOT
-  ),
-  [LOWER] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        // LEVER
-        XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX,XXXXXXX, XXXXXXX, XXXXXXX
-  ),
-  [UPPER] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        // LEVER
-        XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX,XXXXXXX, XXXXXXX, XXXXXXX
-  ),
-[LIGHT] = LAYOUT(
+        // ENCODERS
+        SC_UP,SC_DOWN, KC_RBRC, KC_LBRC, KC_MINS, KC_QUOT
+    ),
+    [LIGHT] = LAYOUT(
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         RGB_HUI, RGB_SAI, RGB_VAI, RGB_SPI, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -49,116 +30,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         XXXXXXX, LT(LIGHT, KC_U), RGB_MOD, RGB_TOG, RGB_RMOD,
         // LEVER
         XXXXXXX, XXXXXXX, XXXXXXX,
+        // ENCODERS
         RGB_HUI, RGB_HUD, RGB_VAI,RGB_VAD, RGB_MOD, RGB_RMOD
-  ),
+    ),
 };
 
-keyevent_t encoder1_ccw = {
-    .type = ENCODER_CCW_EVENT,
-    .key = (keypos_t){.row = 6, .col = 6},
-    .pressed = false
-};
-
-keyevent_t encoder1_cw = {
-    .type = ENCODER_CW_EVENT,
-    .key = (keypos_t){.row = 6, .col = 5},
-    .pressed = false
-};
-
-keyevent_t encoder2_ccw = {
-    .type = ENCODER_CCW_EVENT,
-    .key = (keypos_t){.row = 7, .col = 6},
-    .pressed = false
-};
-
-keyevent_t encoder2_cw = {
-    .type = ENCODER_CW_EVENT,
-    .key = (keypos_t){.row = 7, .col = 5},
-    .pressed = false
-};
-
-keyevent_t encoder3_ccw = {
-    .type = ENCODER_CCW_EVENT,
-    .key = (keypos_t){.row = 8, .col = 5},
-    .pressed = false
-};
-
-keyevent_t encoder3_cw = {
-    .type = ENCODER_CW_EVENT,
-    .key = (keypos_t){.row = 8, .col = 6},
-    .pressed = false
-};
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    process_record_addedkeycodes(keycode, record);
+    return true;
+}
 
 void matrix_scan_user(void){
-    if (encoder1_ccw.pressed){
-        encoder1_ccw.pressed = false;
-        encoder1_ccw.time = (timer_read() | 1);
-        action_exec(encoder1_ccw);
-    }
-
-    if (encoder1_cw.pressed){
-        encoder1_cw.pressed = false;
-        encoder1_cw.time = (timer_read() | 1);
-        action_exec(encoder1_cw);
-    }
-
-    if (encoder2_ccw.pressed){
-        encoder2_ccw.pressed = false;
-        encoder2_ccw.time = (timer_read() | 1);
-        action_exec(encoder2_ccw);
-    }
-
-    if (encoder2_cw.pressed){
-        encoder2_cw.pressed = false;
-        encoder2_cw.time = (timer_read() | 1);
-        action_exec(encoder2_cw);
-    }
-
-    if (encoder3_ccw.pressed){
-        encoder3_ccw.pressed = false;
-        encoder3_ccw.time = (timer_read() | 1);
-        action_exec(encoder3_ccw);
-    }
-
-    if (encoder3_cw.pressed){
-        encoder3_cw.pressed = false;
-        encoder3_cw.time = (timer_read() | 1);
-        action_exec(encoder3_cw);
-    }
+    matrix_scan_addedencoders();
 }
 
-
-bool encoder_update_user(uint8_t index, bool clockwise) {
-    if (index == 0) {
-        if (clockwise) {
-            encoder1_cw.pressed = true;
-            encoder1_cw.time = (timer_read() | 1);
-            action_exec(encoder1_cw);
-        } else {
-            encoder1_ccw.pressed = true;
-            encoder1_ccw.time = (timer_read() | 1);
-            action_exec(encoder1_ccw);
-        }
-    }else if (index == 1) {
-        if (clockwise) {
-            encoder2_cw.pressed = true;
-            encoder2_cw.time = (timer_read() | 1);
-            action_exec(encoder2_cw);
-        } else {
-            encoder2_ccw.pressed = true;
-            encoder2_ccw.time = (timer_read() | 1);
-            action_exec(encoder2_ccw);
-        }
-    }else if (index == 2) {
-        if (clockwise) {
-            encoder3_cw.pressed = true;
-            encoder3_cw.time = (timer_read() | 1);
-            action_exec(encoder3_cw);
-        } else {
-            encoder3_ccw.pressed = true;
-            encoder3_ccw.time = (timer_read() | 1);
-            action_exec(encoder3_ccw);
-        }
-    }
-    return false;
-}

@@ -7,11 +7,11 @@
  #include "paw3204.h"
  #include "pointing_device.h"
 
- enum layer_name {
+enum layer_names {
    BASE = 0,
    LOWER,
    UPPER,
-   LIGHT,
+   LIGHT = 3,
  };
 
  const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -28,13 +28,6 @@
          XXXXXXX, XXXXXXX,          XXXXXXX,
          XXXXXXX, XXXXXXX,
          KC_VOLU, KC_VOLD
-     ),
-     [UPPER] = LAYOUT(
-         XXXXXXX, XXXXXXX,          XXXXXXX,
-         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-         XXXXXXX, XXXXXXX,          XXXXXXX,
-         XXXXXXX, XXXXXXX,
-         XXXXXXX, XXXXXXX
      ),
      [LIGHT] = LAYOUT(
          XXXXXXX, RGB_HUD,          RGB_HUI,

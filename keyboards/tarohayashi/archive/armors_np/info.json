@@ -27,6 +27,12 @@
         "cols": ["D1", "D2", "D3", "D4", "D5", "C5"],
         "rows": ["B2", "C6", "C4"]
     },
+    "dynamic_keymap": {
+        "layer_count": 6
+    },
+    "tapping": {
+        "hold_on_other_key_press": true
+    },
     "diode_direction": "COL2ROW",
     "layouts": {
         "LAYOUT": {
