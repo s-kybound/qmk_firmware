@@ -28,6 +28,9 @@
           "cols": ["C7", "C6", "F0", "F1", "F4", "F5", "B0", "B1", "B2", "B3"],
           "rows": ["D0", "D1", "D3"]
     },
+    "dynamic_keymap": {
+        "layer_count": 6
+    },
     "diode_direction": "COL2ROW",
     "split": {
         "enabled": true,
