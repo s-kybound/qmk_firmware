@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "addencoders.h": "c"
+        "addencoders.h": "c",
+        "addkeycodes.h": "c",
+        "add_keycodes.h": "c"
     }
 }

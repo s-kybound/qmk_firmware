@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include QMK_KEYBOARD_H
-#include "addkeycodes.h"
-#include "addencoders.h"
+#include "add_keycodes.h"
+#include "add_encoders.h"
 
 enum custom_keycode {
   BASE = 0,

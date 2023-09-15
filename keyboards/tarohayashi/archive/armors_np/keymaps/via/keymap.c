@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include QMK_KEYBOARD_H
-#include "addkeycodes.h"
+#include "add_keycodes.h"
 
 enum layer_names {
   BASE = 0,
