@@ -16,7 +16,6 @@ enum layer_number {
     // 自動マウスレイヤー切り替えや設定用のレイヤー
     UTIL, MOUSE , BALL_SETTINGS, LIGHT_SETTINGS    
 };
-
 // キーマップ
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LEFT_BASE] = LAYOUT(
@@ -24,10 +23,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ESC,  KC_1, KC_2,                 KC_3, LT(BALL_SETTINGS, KC_4), LT(LIGHT_SETTINGS, KC_5),
         KC_TAB,  KC_Q, KC_W,                 KC_E, KC_R,                    KC_T,
         CMD_CTL, KC_A, KC_S, KC_D, KC_F,                    KC_G,
-                 LSFT_T(KC_Z), KC_X,                 KC_C, KC_V,                    KC_B,
+                 KC_Z, KC_X,                 KC_C, KC_V,                    LT(UTIL, KC_B),
                        MOD_SCRL,
         // 側面スイッチ
-        KC_LNG2, KC_SPACE,                                  
+        LT(LEFT_UPPER, KC_LNG2), LT(LEFT_LOWER, KC_SPACE),                                  
         // 十字キーorジョイスティック                // ジョイスティックスイッチ
         KC_UP, KC_DOWN, KC_LEFT, KC_RIGHT,         KC_ENT,                 
         // 追加スイッチ                             // トグルスイッチ
@@ -35,14 +34,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // ホイール
         // 天面1          // 天面2      // 側面       // 追加 
         KC_ESC, KC_TAB,   REDO, UNDO,   KC_WH_U, KC_WH_D,   KC_WH_U, KC_WH_D
-    ),
+    ),    
     [RIGHT_BASE] = LAYOUT(
         KC_BSPC,    KC_0,       KC_9,            KC_8,            LT(BALL_SETTINGS, KC_7), LT(LIGHT_SETTINGS, KC_6),
         KC_ENT,     KC_P,       KC_O,            KC_I,            KC_U,                 KC_Y,
         KC_RSFT,    KC_SCLN,    LT(MOUSE, KC_L), KC_K,            KC_J,                 KC_H,
-                    KC_SLSH,    KC_DOT,          KC_COMM,         KC_M,                 KC_N,
+                    KC_SLSH,    KC_DOT,          KC_COMM,         KC_M,                 LT(UTIL, KC_N),
                                 MOD_SCRL,
-        KC_SPACE,, KC_LNG1,
+        LT(RIGHT_LOWER, KC_SPACE),LT(RIGHT_UPPER, KC_LNG1),
         KC_LEFT, KC_RIGHT, KC_DOWN, KC_UP,       KC_ENT,
         KC_MS_BTN2, KC_MS_BTN1,                  _______,
         KC_DEL, KC_BSPC, KC_UP, KC_DOWN,   KC_WH_U, KC_WH_D,   KC_WH_U, KC_WH_D         
@@ -52,7 +51,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX,
         _______, XXXXXXX, _______, KC_MS_BTN2, KC_MS_BTN1, MOD_SCRL,
                  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
-                          _______,
+                          MOD_SCRL,
         XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,
         XXXXXXX, XXXXXXX,                            XXXXXXX,
@@ -82,7 +81,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, _______, _______
     )
 };
-
 // 初期化
 void matrix_init_user(void) {
     matrix_init_addedjoystick();
