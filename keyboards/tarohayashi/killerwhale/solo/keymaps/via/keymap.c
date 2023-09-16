@@ -24,7 +24,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  KC_Q, KC_W,                 KC_E, KC_R,                    KC_T,
         CMD_CTL, KC_A, KC_S, KC_D, KC_F,                    KC_G,
                  KC_Z, KC_X,                 KC_C, KC_V,                    LT(UTIL, KC_B),
-                       KC_SPC,
+                       MOD_SCRL,
         // 側面スイッチ
         LT(LEFT_UPPER, KC_LNG2), LT(LEFT_LOWER, KC_SPACE),                                  
         // 十字キーorジョイスティック                // ジョイスティックスイッチ
@@ -40,7 +40,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ENT,     KC_P,       KC_O,            KC_I,            KC_U,                 KC_Y,
         KC_RSFT,    KC_SCLN,    LT(MOUSE, KC_L), KC_K,            KC_J,                 KC_H,
                     KC_SLSH,    KC_DOT,          KC_COMM,         KC_M,                 LT(UTIL, KC_N),
-                                KC_SPC,
+                                MOD_SCRL,
         LT(RIGHT_LOWER, KC_SPACE),LT(RIGHT_UPPER, KC_LNG1),
         KC_LEFT, KC_RIGHT, KC_DOWN, KC_UP,       KC_ENT,
         KC_MS_BTN2, KC_MS_BTN1,                  _______,
