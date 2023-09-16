@@ -4,3 +4,4 @@
 #pragma once
 
 #define POINTING_DEVICE_COMBINED
+#define POINTING_DEVICE_TASK_THROTTLE_MS 4

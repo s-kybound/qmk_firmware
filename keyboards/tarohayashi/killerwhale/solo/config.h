@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
-/**/
+
+#define PRODUCT KillerWhaleSOLO
+
 #define PMW33XX_CS_PIN  GP0
 #define SPI_SCK_PIN GP18
 #define SPI_MISO_PIN GP16

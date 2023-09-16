@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
-/**/
+
+#define PRODUCT KillerWhaleDUO
+
 #define PMW33XX_CS_PIN  GP0
 #define SPI_SCK_PIN GP18
 #define SPI_MISO_PIN GP16
@@ -23,3 +25,5 @@
 #define SPLIT_HAND_PIN_LOW_IS_LEFT
 
 #define SPLIT_LAYER_STATE_ENABLE
+
+#define SELECT_SOFT_SERIAL_SPEED 0
