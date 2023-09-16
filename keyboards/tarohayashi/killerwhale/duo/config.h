@@ -3,8 +3,6 @@
 
 #pragma once
 
-#define PRODUCT KillerWhaleDUO
-
 #define PMW33XX_CS_PIN  GP0
 #define SPI_SCK_PIN GP18
 #define SPI_MISO_PIN GP16
