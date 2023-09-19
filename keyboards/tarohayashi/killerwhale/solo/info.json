@@ -23,7 +23,7 @@
     },
     "matrix_pins": {
         "cols": ["GP3", "GP4", "GP5", "GP6", "GP7", "GP11", "GP12"],
-        "rows": ["GP3", "GP4", "GP5", "GP6", "GP7", "GP11", "GP12", "GP23", "GP24", "GP25", "GP29"]
+        "rows": ["GP3", "GP4", "GP5", "GP6", "GP7", "GP11", "GP12", "GP29", "GP29", "GP29", "GP29"]
     },
     "diode_direction": "COL2ROW",
     "dynamic_keymap": {
