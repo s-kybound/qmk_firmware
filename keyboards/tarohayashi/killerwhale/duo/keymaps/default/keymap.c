@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include QMK_KEYBOARD_H
-#include "add_encoders.h"
 #include "add_joystick.h"
 
 
@@ -25,13 +24,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     SEND_01, SEND_02, SEND_03, SEND_04, SEND_05, SEND_06, SEND_07, SEND_08, SEND_09, SEND_10,
     SEND_11, SEND_12, SEND_13, SEND_14, SEND_15, SEND_16, SEND_17, SEND_18, SEND_19, SEND_20,
     SEND_21, SEND_22, SEND_23, SEND_24, SEND_25, SEND_26, SEND_27, SEND_28, SEND_29, SEND_30,
-    SEND_31, SEND_32, SEND_33, XXXXXXX, SEND_35, SEND_36, SEND_37, SEND_38, SEND_39, SEND_40,
-    SEND_41, SEND_42, SEND_43, SEND_44, SEND_45, SEND_46, SEND_47, SEND_48, SEND_49, SEND_50,
+    SEND_31, SEND_32, SEND_33, XXXXXXX,
+    SEND_43, SEND_44, SEND_45, SEND_46, SEND_47, SEND_48, SEND_49, SEND_50,
     SEND_51, SEND_52, SEND_53, SEND_54, SEND_55, SEND_56, SEND_57, SEND_58, SEND_59, SEND_60,
     SEND_61, SEND_62, SEND_63, SEND_64, SEND_65, SEND_66, SEND_67, SEND_68, SEND_69, SEND_70,
-    SEND_71, SEND_72, SEND_73, SEND_74, SEND_75, XXXXXXX, SEND_77, SEND_78, SEND_79, SEND_80,
-    SEND_81, SEND_82, SEND_83, SEND_84
+    SEND_71, SEND_72, SEND_73, SEND_74, SEND_75, XXXXXXX
     ),
+};
+
+const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
+    [0] =   { 
+        ENCODER_CCW_CW(KC_A, KC_B),
+        ENCODER_CCW_CW(KC_C, KC_D),
+        ENCODER_CCW_CW(KC_E, KC_F),
+        ENCODER_CCW_CW(KC_G, KC_H),
+        ENCODER_CCW_CW(KC_A, KC_B),
+        ENCODER_CCW_CW(KC_C, KC_D),
+        ENCODER_CCW_CW(KC_E, KC_F),
+        ENCODER_CCW_CW(KC_G, KC_H)
+    },
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -130,6 +141,5 @@ void matrix_init_user(void) {
 }
 
 void matrix_scan_user(void) {
-    matrix_scan_addedencoders();
     matrix_scan_addedjoystick();
 }

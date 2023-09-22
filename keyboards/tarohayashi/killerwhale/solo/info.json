@@ -17,13 +17,19 @@
         "rgblight": true,
         "midi": true
     },
+    "mouse_key": {
+        "enabled": true
+    },
+    "tapping": {
+        "hold_on_other_key_press": true
+    },
     "bootmagic": {
         "enabled": true,
         "matrix": [0, 1]
     },
     "matrix_pins": {
         "cols": ["GP3", "GP4", "GP5", "GP6", "GP7", "GP11", "GP12"],
-        "rows": ["GP3", "GP4", "GP5", "GP6", "GP7", "GP11", "GP12", "GP29", "GP29", "GP29", "GP29"]
+        "rows": ["GP3", "GP4", "GP5", "GP6", "GP7", "GP11", "GP12"]
     },
     "diode_direction": "COL2ROW",
     "dynamic_keymap": {
@@ -56,12 +62,6 @@
             { "pin_a": "GP22", "pin_b": "GP26", "resolution": 2},
             { "pin_a": "GP20", "pin_b": "GP21", "resolution": 2}
         ]
-    },
-    "mouse_key": {
-        "enabled": true
-    },
-    "tapping": {
-        "hold_on_other_key_press": true
     },
     "layouts": {
         "LAYOUT": {
@@ -99,15 +99,7 @@
                 { "label": "JOYSW", "matrix": [0, 6], "x": 0, "y": 0 },
                 { "label": "ADD1", "matrix": [5, 3], "x": 0, "y": 0 },
                 { "label": "ADD2", "matrix": [5, 4], "x": 0, "y": 0 },
-                { "label": "TOG", "matrix": [4, 3], "x": 0, "y": 0 },
-                { "matrix": [7, 0], "x": 0, "y": 0 },
-                { "matrix": [7, 1], "x": 0, "y": 0 },
-                { "matrix": [8, 0], "x": 0, "y": 0 },
-                { "matrix": [8, 1], "x": 0, "y": 0 },
-                { "matrix": [9, 0], "x": 0, "y": 0 },
-                { "matrix": [9, 1], "x": 0, "y": 0 },
-                { "matrix": [10,0], "x": 0, "y": 0 },
-                { "matrix": [10,1], "x": 0, "y": 0 }
+                { "label": "TOG", "matrix": [4, 3], "x": 0, "y": 0 }
             ]
         }
     }

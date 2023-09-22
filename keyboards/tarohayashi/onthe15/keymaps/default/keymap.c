@@ -18,8 +18,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       SEND_01, SEND_02, SEND_03, SEND_04, SEND_05, SEND_06, SEND_07, SEND_08, SEND_09, SEND_10, SEND_11, SEND_12, SEND_13, SEND_14, SEND_15,
       SEND_16, SEND_17, SEND_18, SEND_19, SEND_20, SEND_21, SEND_22, SEND_23, SEND_24, SEND_25, SEND_26, SEND_27, SEND_28, SEND_29, SEND_30,
       SEND_31, SEND_32, SEND_33, SEND_34, SEND_35, SEND_36, SEND_37, SEND_38, SEND_39, SEND_40, SEND_41, SEND_42, SEND_43, SEND_44, SEND_45,
-      SEND_46, SEND_47, SEND_48, SEND_49, SEND_50, SEND_51, SEND_52, SEND_53, SEND_54, SEND_55, SEND_56, SEND_57, SEND_58, SEND_59, SEND_60,
-      KC_A, KC_B, KC_C, KC_D, KC_E, KC_F, KC_G, KC_H
+      SEND_46, SEND_47, SEND_48, SEND_49, SEND_50, SEND_51, SEND_52, SEND_53, SEND_54, SEND_55, SEND_56, SEND_57, SEND_58, SEND_59, SEND_60
     )
 };
 
@@ -107,6 +106,12 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
             tap_code(KC_E);
         } else {
             tap_code(KC_F);
+        }
+    } else if (index == 3) { /* Second encoder */
+        if (clockwise) {
+            tap_code(KC_G);
+        } else {
+            tap_code(KC_H);
         }
     }
     return false;

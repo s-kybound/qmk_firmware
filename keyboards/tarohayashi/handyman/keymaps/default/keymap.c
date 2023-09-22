@@ -17,8 +17,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         SEND_11, SEND_12, SEND_13, SEND_14, SEND_15,
         SEND_16, SEND_17, SEND_18, SEND_19, SEND_20,
         SEND_21, SEND_22, SEND_23, SEND_24, SEND_25,
-        SEND_26, SEND_27, SEND_28,
-        KC_A, KC_B, KC_C, KC_D, KC_E, KC_F
+        SEND_26, SEND_27, SEND_28
   )
 };
 

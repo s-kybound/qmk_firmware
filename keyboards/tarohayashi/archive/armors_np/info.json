@@ -58,8 +58,8 @@
         }
     },
     "ws2812": {
-        "pin": "B3",
-    }
+        "pin": "B3"
+    },
     "rgb_matrix": {
         "driver": "ws2812",
         "animations": {

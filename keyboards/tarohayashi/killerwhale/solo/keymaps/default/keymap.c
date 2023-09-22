@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include QMK_KEYBOARD_H
-#include "add_encoders.h"
 #include "add_joystick.h"
 
 enum custom_keycodes{
@@ -10,8 +9,7 @@ enum custom_keycodes{
            SEND_02, SEND_03, SEND_04, SEND_05, SEND_06, SEND_07, SEND_08, SEND_09, SEND_10,
   SEND_11, SEND_12, SEND_13, SEND_14, SEND_15, SEND_16, SEND_17, SEND_18, SEND_19, SEND_20,
   SEND_21, SEND_22, SEND_23, SEND_24, SEND_25, SEND_26, SEND_27, SEND_28, SEND_29, SEND_30,
-  SEND_31, SEND_32, SEND_33, SEND_34, SEND_35, SEND_36, SEND_37, SEND_38, SEND_39, SEND_40,
-  SEND_41, SEND_42
+  SEND_31, SEND_32, SEND_33
 };
 
 // キーマップ
@@ -19,7 +17,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT(
         SEND_01, SEND_02, SEND_03, SEND_04, SEND_05, SEND_06, SEND_07, SEND_08, SEND_09, SEND_10, SEND_11, SEND_12, SEND_13, SEND_14, SEND_15,
       SEND_16, SEND_17, SEND_18, SEND_19, SEND_20, SEND_21, SEND_22, SEND_23, SEND_24, SEND_25, SEND_26, SEND_27, SEND_28, SEND_29, SEND_30,
-      SEND_31, SEND_32, SEND_33, XXXXXXX, SEND_35, SEND_36, SEND_37, SEND_38, SEND_39, SEND_40, SEND_41, SEND_42
+      SEND_31, SEND_32, SEND_33, XXXXXXX
     )
 };
 
@@ -63,21 +61,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
         case SEND_31: if (record->event.pressed) SEND_STRING("31 "); break;
         case SEND_32: if (record->event.pressed) SEND_STRING("32 "); break;
         case SEND_33: if (record->event.pressed) SEND_STRING("33 "); break;
-        case SEND_34: if (record->event.pressed) SEND_STRING("34 "); break;
-        case SEND_35: if (record->event.pressed) SEND_STRING("35 "); break;
-        case SEND_36: if (record->event.pressed) SEND_STRING("36 "); break;
-        case SEND_37: if (record->event.pressed) SEND_STRING("37 "); break;
-        case SEND_38: if (record->event.pressed) SEND_STRING("38 "); break;
-        case SEND_39: if (record->event.pressed) SEND_STRING("39 "); break;
-        case SEND_40: if (record->event.pressed) SEND_STRING("40 "); break;
-        case SEND_41: if (record->event.pressed) SEND_STRING("41 "); break;
-        case SEND_42: if (record->event.pressed) SEND_STRING("42 "); break;
     }
     return true;
 }
 
+const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
+    [0] =   { 
+        ENCODER_CCW_CW(KC_A, KC_B),
+        ENCODER_CCW_CW(KC_C, KC_D),
+        ENCODER_CCW_CW(KC_E, KC_F),
+        ENCODER_CCW_CW(KC_G, KC_H)
+    },
+};
+
 // マトリックススキャン
 void matrix_scan_user(void) {
-    matrix_scan_addedencoders();
     matrix_scan_addedjoystick();
 }

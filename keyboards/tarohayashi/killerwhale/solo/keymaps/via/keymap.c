@@ -3,7 +3,6 @@
 
 #include QMK_KEYBOARD_H
 #include "add_keycodes.h"
-#include "add_encoders.h"
 #include "add_joystick.h"
 
 // レイヤー名
@@ -30,10 +29,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // 十字キーorジョイスティック                // ジョイスティックスイッチ
         KC_UP, KC_DOWN, KC_LEFT, KC_RIGHT,         KC_ENT,                 
         // 追加スイッチ                             // トグルスイッチ
-        KC_MS_BTN2, KC_MS_BTN1,                    MO(RIGHT_BASE),           
-        // ホイール
-        // 天面1          // 天面2      // 側面       // 追加 
-        KC_ESC, KC_TAB,   REDO, UNDO,   KC_WH_U, KC_WH_D,   KC_WH_U, KC_WH_D
+        KC_MS_BTN2, KC_MS_BTN1,                    MO(RIGHT_BASE)
     ),    
     [RIGHT_BASE] = LAYOUT(
         KC_BSPC,    KC_0,       KC_9,            KC_8,            LT(BALL_SETTINGS, KC_7), LT(LIGHT_SETTINGS, KC_6),
@@ -43,8 +39,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 MOD_SCRL,
         KC_SPACE, KC_LNG1,
         KC_LEFT, KC_RIGHT, KC_DOWN, KC_UP,       KC_ENT,
-        KC_MS_BTN2, KC_MS_BTN1,                  _______,
-        KC_DEL, KC_BSPC, KC_UP, KC_DOWN,   KC_WH_U, KC_WH_D,   KC_WH_U, KC_WH_D         
+        KC_MS_BTN2, KC_MS_BTN1,                  _______      
     ),
     [MOUSE] = LAYOUT(
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,    _______,
@@ -54,9 +49,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           MOD_SCRL,
         XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,
-        XXXXXXX, XXXXXXX,                            XXXXXXX,
-        _______, _______, _______, _______, _______, _______, _______, _______
-
+        XXXXXXX, XXXXXXX,                            XXXXXXX
     ),
     [BALL_SETTINGS] = LAYOUT(
         XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, _______,  L_CHMOD,
@@ -66,8 +59,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           INV_SCRL,
         XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,
-        XXXXXXX, XXXXXXX,                            XXXXXXX,
-        _______, _______, _______, _______, _______, _______, _______, _______
+        XXXXXXX, XXXXXXX,                            XXXXXXX
     ),
     [LIGHT_SETTINGS] = LAYOUT(
         XXXXXXX, XXXXXXX, XXXXXXX, RGB_MOD, RGB_MOD, _______,
@@ -77,11 +69,32 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           XXXXXXX,
         RGB_MOD, RGB_MOD,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,
-        XXXXXXX, XXXXXXX,                            XXXXXXX,
-        _______, _______, _______, _______, _______, _______, _______, _______
+        XXXXXXX, XXXXXXX,                            XXXXXXX
     )
 };
 
+const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
+    [LEFT_BASE] =   { 
+        ENCODER_CCW_CW(KC_ESC, KC_TAB), 
+        ENCODER_CCW_CW(REDO, UNDO), 
+        ENCODER_CCW_CW(KC_WH_U, KC_WH_D),
+        ENCODER_CCW_CW(KC_WH_U, KC_WH_D)
+    },
+    [RIGHT_BASE] =   { 
+        ENCODER_CCW_CW(KC_DEL, KC_BSPC), 
+        ENCODER_CCW_CW(KC_UP, KC_DOWN), 
+        ENCODER_CCW_CW(KC_WH_U, KC_WH_D),
+        ENCODER_CCW_CW(KC_WH_U, KC_WH_D)
+    },
+    [LIGHT_SETTINGS] = { 
+        ENCODER_CCW_CW(RGB_SPI, RGB_SPD), 
+        ENCODER_CCW_CW(RGB_VAI, RGB_VAD), 
+        ENCODER_CCW_CW(RGB_SAI, RGB_SAD), 
+        ENCODER_CCW_CW(RGB_HUI, RGB_HUD)
+    }
+};
+
+// 初期化
 void matrix_init_user(void) {
     matrix_init_addedjoystick();
 }
@@ -94,6 +107,5 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 
 // マトリックススキャン
 void matrix_scan_user(void) {
-    matrix_scan_addedencoders();
     matrix_scan_addedjoystick();
 }
