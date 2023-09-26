@@ -72,10 +72,10 @@ keypos_t key_up;
 keypos_t key_left;
 keypos_t key_right;
 keypos_t key_down;
-bool pressed_up;
-bool pressed_down;
-bool pressed_left;
-bool pressed_right;
+bool pressed_up = false;
+bool pressed_down = false;
+bool pressed_left = false;
+bool pressed_right = false;
 
 
 void matrix_init_user(void) {

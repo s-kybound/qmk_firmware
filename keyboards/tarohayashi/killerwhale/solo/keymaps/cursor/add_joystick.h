@@ -6,7 +6,6 @@
 
 // ジョイスティックの定数
 #define STICK_OFFSET 220
-#define STICK_WAIT 50
 #define NO_STICK_VAL 100
 
 void matrix_init_addedjoystick(void);

@@ -5,7 +5,7 @@
 #include "quantum.h"
 
 // ジョイスティックの定数
-#define STICK_OFFSET 300
+#define STICK_OFFSET 220
 #define STICK_WAIT 50
 #define NO_STICK_VAL 100
 

@@ -15,6 +15,10 @@
           ["GP1"]
         ]
     },
+    "bootmagic": {
+        "enabled": true,
+        "matrix": [0, 1]
+    },
     "layouts": {
         "LAYOUT": {
             "layout": [

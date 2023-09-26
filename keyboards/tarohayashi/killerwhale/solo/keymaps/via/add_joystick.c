@@ -9,32 +9,15 @@
 int16_t gp27_newt;
 int16_t gp28_newt;
 bool joystick_attached;
-uint16_t wait_timer;
 
-
-keyevent_t joystick_left = {
-    .type = KEY_EVENT,
-    .key = (keypos_t){.row = 2, .col = 6},
-    .pressed = false
-};
-
-keyevent_t joystick_right = {
-    .type = KEY_EVENT,
-    .key = (keypos_t){.row = 4, .col = 6},
-    .pressed = false
-};
-
-keyevent_t joystick_up = {
-    .type = KEY_EVENT,
-    .key = (keypos_t){.row = 3, .col = 6},
-    .pressed = false
-};
-
-keyevent_t joystick_down = {
-    .type = KEY_EVENT,
-    .key = (keypos_t){.row = 1, .col = 6},
-    .pressed = false
-};
+keypos_t key_up;
+keypos_t key_left;
+keypos_t key_right;
+keypos_t key_down;
+bool pressed_up = false;
+bool pressed_down = false;
+bool pressed_left = false;
+bool pressed_right = false;
 
 void matrix_init_addedjoystick(void) {
     gp27_newt = analogReadPin(GP27);
@@ -44,67 +27,51 @@ void matrix_init_addedjoystick(void) {
     }else{
         joystick_attached = true;
     }
+    key_up.row = 3;
+    key_up.col = 6;
+    key_left.row = 2;
+    key_left.col = 6;
+    key_right.row = 4;
+    key_right.col = 6;
+    key_down.row = 1;
+    key_down.col = 6;
 }
 
 void matrix_scan_addedjoystick(void) {
     if(joystick_attached){
-        int16_t gp27_val = analogReadPin(GP27);
-        int16_t gp28_val = analogReadPin(GP28);
-        float x_val = ( (float)gp27_val - (float)gp27_newt  ) * (float)511 / ((float)1023 - (float)gp27_newt);
-        float y_val = ( (float)gp28_val - (float)gp28_newt ) * (float)511 / ((float)1023 - (float)gp28_newt);
-        if(x_val < -511){
-            x_val = -511;
-        }
-        if(y_val < -511){
-            y_val = -511;
+
+        int8_t layer = layer_switch_get_layer(key_up);
+        int16_t keycode_up = keymap_key_to_keycode(layer, key_up);
+        int16_t keycode_left = keymap_key_to_keycode(layer, key_left);
+        int16_t keycode_right = keymap_key_to_keycode(layer, key_right);
+        int16_t keycode_down = keymap_key_to_keycode(layer, key_down);
+
+        if(!pressed_left && analogReadPin(GP27) - 512 > STICK_OFFSET){
+            pressed_left = true;
+            register_code(keycode_left);
+        }else if(pressed_left && analogReadPin(GP27) - 512  < STICK_OFFSET){
+            pressed_left = false;
+            unregister_code(keycode_left);
+        }else if(!pressed_right && analogReadPin(GP27) - 512  < -STICK_OFFSET){
+            pressed_right = true;
+            register_code(keycode_right);
+        }else if (pressed_right && analogReadPin(GP27) - 512  > -STICK_OFFSET){
+            pressed_right = false;
+            unregister_code(keycode_right);
         }
 
-        if(x_val > (float)STICK_OFFSET && timer_elapsed(wait_timer) > STICK_WAIT){
-            joystick_left.pressed = true;
-            joystick_left.time = (timer_read() | 1);
-            action_exec(joystick_left);
-            wait_timer = timer_read();
-        }else if(x_val < (float)-1 * (float)STICK_OFFSET && timer_elapsed(wait_timer) > STICK_WAIT){
-            joystick_right.pressed = true;
-            joystick_right.time = (timer_read() | 1);
-            action_exec(joystick_right);
-            wait_timer = timer_read();
-        }
-
-        if(y_val > (float)STICK_OFFSET && timer_elapsed(wait_timer) > STICK_WAIT){
-            joystick_up.pressed = true;
-            joystick_up.time = (timer_read() | 1);
-            action_exec(joystick_up);
-            wait_timer = timer_read();
-        }else if(y_val < (float)-1 * (float)STICK_OFFSET && timer_elapsed(wait_timer) > STICK_WAIT){
-            joystick_down.pressed = true;
-            joystick_down.time = (timer_read() | 1);
-            action_exec(joystick_down);
-            wait_timer = timer_read();
-        }
-
-        if (joystick_left.pressed){
-            joystick_left.pressed = false;
-            joystick_left.time = (timer_read() | 1);
-            action_exec(joystick_left);
-        }
-
-        if (joystick_right.pressed){
-            joystick_right.pressed = false;
-            joystick_right.time = (timer_read() | 1);
-            action_exec(joystick_right);
-        }
-
-        if (joystick_up.pressed){
-            joystick_up.pressed = false;
-            joystick_up.time = (timer_read() | 1);
-            action_exec(joystick_up);
-        }
-
-        if (joystick_down.pressed){
-            joystick_down.pressed = false;
-            joystick_down.time = (timer_read() | 1);
-            action_exec(joystick_down);
+        if(!pressed_up && analogReadPin(GP28) - 512  > STICK_OFFSET){
+            pressed_up = true;
+            register_code(keycode_up);
+        }else if(pressed_up && analogReadPin(GP28) - 512  < STICK_OFFSET){
+            pressed_up = false;
+            unregister_code(keycode_up);
+        }else if(!pressed_down && analogReadPin(GP28) - 512  < -STICK_OFFSET){
+            pressed_down = true;
+            register_code(keycode_down);
+        }else if(pressed_down && analogReadPin(GP28) - 512  > -STICK_OFFSET){
+            pressed_down = false;
+            unregister_code(keycode_down);
         }
     }
 }
