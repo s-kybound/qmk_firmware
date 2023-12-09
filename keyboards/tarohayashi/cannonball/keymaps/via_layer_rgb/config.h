@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
-#include "quantum.h"
 
-// 外部参照変数
-extern bool oled_mode;
+#define RGBLIGHT_LAYERS
+#define RGBLIGHT_MAX_LAYERS 6

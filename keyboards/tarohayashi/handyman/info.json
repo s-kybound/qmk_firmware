@@ -12,8 +12,7 @@
     "bootloader": "caterina",
     "features": {
         "extrakey": true,
-        "rgblight": true,
-        "midi": true
+        "rgblight": true
     },
     "bootmagic": {
         "enabled": true
@@ -21,6 +20,9 @@
     "matrix_pins": {
         "cols": ["F4", "F5", "F6", "F7", "B1"],
         "rows": ["B6", "B2", "B3", "B5", "B4", "E6"]
+    },
+    "dynamic_keymap": {
+        "layer_count": 6
     },
     "diode_direction": "ROW2COL",
     "encoder": {
@@ -30,9 +32,6 @@
             { "pin_a": "D0", "pin_b": "D4", "resolution": 4},
             { "pin_a": "C6", "pin_b": "D7", "resolution": 4}
         ]
-    },
-    "dynamic_keymap": {
-        "layer_count": 6
     },
     "build": {
         "lto": true
@@ -81,7 +80,8 @@
         "pin": "D3"
     },
     "rgblight": {
-        "led_count": 34,
+        "led_count": 28,
+        "max_brightness": 200,
         "animations": {
             "alternating": true,
             "breathing": true,
@@ -93,6 +93,7 @@
             "snake": true,
             "static_gradient": true,
             "twinkle": true
-        }
+        },
+        "sleep": true
     }
 }

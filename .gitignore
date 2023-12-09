@@ -129,3 +129,7 @@ keyboards/tarohayashi/onthe15/keymaps/novia/add_keycodes.c
 keyboards/tarohayashi/onthe15/keymaps/novia/add_keycodes.h
 keyboards/tarohayashi/onthe15/keymaps/novia/keymap.c
 keyboards/tarohayashi/onthe15/keymaps/novia/rules.mk
+keyboards/tarohayashi/killerwhale/solo/.vscode/settings.json
+keyboards/tarohayashi/killerwhale/duo/.vscode/settings.json
+keyboards/tarohayashi/cannonball/.vscode/settings.json
+keyboards/tarohayashi/killerwhale/solo/.vscode/settings.json

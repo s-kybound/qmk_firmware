@@ -4,18 +4,6 @@
 #include "add_keycodes.h"
 #include "quantum.h"
 #include "os_detection.h"
-#include "add_oled.h"
-#include "add_trackball.h"
-
-// スクロールボタンをマウスキー扱いに
-bool is_mouse_record_user(uint16_t keycode, keyrecord_t* record) {
-    switch(keycode) {
-        case MOD_SCRL:
-            return true;
-        default:
-            return false;
-    }
-}
 
 bool process_record_addedkeycodes(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -283,109 +271,43 @@ bool process_record_addedkeycodes(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
             break;
-        case CPI_I:
+        case SEARCH:
             if (record->event.pressed) {
-                ballconfig.cpi_idx = ballconfig.cpi_idx + 1;
-                if(ballconfig.cpi_idx >= CPI_OPTION_SIZE){
-                    ballconfig.cpi_idx = CPI_OPTION_SIZE-1;
+                if (detected_host_os() == OS_MACOS || detected_host_os() == OS_IOS){
+                    register_code(KC_LGUI);
+                    tap_code(KC_SPC);
+                    unregister_code(KC_LGUI);
+                } else {
+                    register_code(KC_LGUI);
+                    tap_code(KC_S);
+                    unregister_code(KC_LGUI);
                 }
-                eeconfig_update_user(ballconfig.raw);
-                pointing_device_set_cpi(cpi_array[ballconfig.cpi_idx]);
             }
             return false;
             break;
-        case CPI_D:
+        case IPADHOME:
             if (record->event.pressed) {
-                if(ballconfig.cpi_idx > 0){
-                    ballconfig.cpi_idx = ballconfig.cpi_idx - 1;
+                if (detected_host_os() == OS_IOS){
+                    register_code(KC_LGUI);
+                    tap_code(KC_H);
+                    unregister_code(KC_LGUI);
                 }
-                eeconfig_update_user(ballconfig.raw);
-                pointing_device_set_cpi(cpi_array[ballconfig.cpi_idx]);
             }
             return false;
             break;
-        case L_ANG_I:
+        case IPADDOCK:
             if (record->event.pressed) {
-                ballconfig.angle_idx = (ballconfig.angle_idx + 1) % ANGLE_OPTION_SIZE;
-                eeconfig_update_user(ballconfig.raw);
-            }
-            return false;
-            break;
-        case L_ANG_D:
-            if (record->event.pressed) {
-                ballconfig.angle_idx = (ANGLE_OPTION_SIZE + ballconfig.angle_idx - 1) % ANGLE_OPTION_SIZE;
-                eeconfig_update_user(ballconfig.raw);
-            }
-            return false;
-            break;
-        case R_ANG_I:
-            if (record->event.pressed) {
-                ballconfig.angle_idx = (ballconfig.angle_idx + 1) % ANGLE_OPTION_SIZE;
-                eeconfig_update_user(ballconfig.raw);
-            }
-            return false;
-            break;
-        case R_ANG_D:
-            if (record->event.pressed) {
-                ballconfig.angle_idx = (ANGLE_OPTION_SIZE + ballconfig.angle_idx - 1) % ANGLE_OPTION_SIZE;
-                eeconfig_update_user(ballconfig.raw);
-            }
-            return false;
-            break;
-        case L_INV:
-            if (record->event.pressed) {
-                ballconfig.inv = !ballconfig.inv;
-                eeconfig_update_user(ballconfig.raw);
-            }
-            return false;
-            break;
-        case R_INV:
-            if (record->event.pressed) {
-                ballconfig.inv = !ballconfig.inv;
-                eeconfig_update_user(ballconfig.raw);
-            }
-            return false;
-            break;
-        case L_CHMOD:
-            if (record->event.pressed) {
-                ballconfig.scmode = !ballconfig.scmode;
-                eeconfig_update_user(ballconfig.raw);
-            }
-            return false;
-            break;
-        case R_CHMOD:
-            if (record->event.pressed) {
-                ballconfig.scmode = !ballconfig.scmode;
-                eeconfig_update_user(ballconfig.raw);
-            }
-            return false;
-            break;
-        case INV_SCRL:
-            if (record->event.pressed) {
-                ballconfig.inv_sc = !ballconfig.inv_sc;
-                eeconfig_update_user(ballconfig.raw);
-            }
-            return false;
-            break;
-        case MOD_SCRL:
-            scrolling = record->event.pressed;
-            return false;
-            break;
-        case AUTO_MOUSE:
-            if (record->event.pressed) {
-                ballconfig.auto_mouse = !ballconfig.auto_mouse;
-                set_auto_mouse_enable(ballconfig.auto_mouse);
-                eeconfig_update_user(ballconfig.raw);
-            }
-            return false;
-            break;
-        case OLED_MOD:
-            if (record->event.pressed) {
-                oled_mode = !oled_mode;
-                oled_clear();
+                if (detected_host_os() == OS_IOS){
+                    register_code(KC_LGUI);
+                    register_code(KC_LALT);
+                    tap_code(KC_D);
+                    unregister_code(KC_LALT);
+                    unregister_code(KC_LGUI);
+                }
             }
             return false;
             break;
     }
+   
     return true;
 }
