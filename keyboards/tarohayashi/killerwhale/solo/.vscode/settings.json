@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "addencoders.h": "c",
+        "addkeycodes.h": "c",
+        "keymap.h": "c",
+        "add_keycodes.h": "c",
+        "add_encoders.h": "c",
+        "add_rgblayers.h": "c"
+    }
+}
