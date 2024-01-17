@@ -100,7 +100,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // 十字キーorジョイスティック                                   // ジョイスティックスイッチ
         KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,                KC_TRNS,      
         // 追加スイッチ                                               // トグルスイッチ
-        KC_NO,      KC_NO,                                          KC_NO
+        KC_TRNS,    KC_TRNS,                                        KC_NO
     ),
     [NAV] = LAYOUT(
         // 左手 
@@ -145,7 +145,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TRNS,    KC_TRNS,                                        KC_TRNS,
         // 右手
         KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_NO,
-        UNDO,       CUT,        COPY,       PASTE,      REDO,       KC_NO,
+        KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_NO,
         KC_NO,      KC_MS_L,    KC_MS_D,    KC_MS_U,    KC_MS_R,    KC_NO,
         KC_NO,      KC_WH_L,    KC_WH_D,    KC_WH_U,    KC_WH_R,
                                             KC_NO,
