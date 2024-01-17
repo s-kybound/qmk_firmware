@@ -10,8 +10,8 @@
 // レイヤー名
 enum layer_number {
     BASE = 0,
-    MEDIA, NAV, _MOUSE, SYM, NUM, FUN,           // Miryoku-style layers
     ONOFF, OFFON, ONON,                       // トグルスイッチで変更するレイヤー
+    MEDIA, NAV, _MOUSE, SYM, NUM, FUN,        // Miryoku-style layers
     LOWER, UPPER, UTIL,                       // 長押しで変更するレイヤー
     MOUSE, BALL_SETTINGS, LIGHT_SETTINGS // 自動マウスレイヤー切り替えや設定用のレイヤー
 };
