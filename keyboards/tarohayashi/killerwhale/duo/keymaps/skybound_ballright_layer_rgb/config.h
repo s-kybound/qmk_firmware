@@ -7,6 +7,9 @@
 #define RGBLIGHT_LAYERS
 #define RGBLIGHT_MAX_LAYERS 12
 
+#undef AUTO_MOUSE_DEFAULT_LAYER
+#define AUTO_MOUSE_DEFAULT_LAYER 13
+
 /* Configuration for home row mods */
 // Configure the global tapping term (default: 200ms)
 #define TAPPING_TERM 200
