@@ -51,11 +51,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [BASE] = LAYOUT(
         // 左手 
         // 天面スイッチ
-        KC_MINS,        KC_1,           KC_2,           KC_3,           LT(BALL_SETTINGS, KC_4),    LT(LIGHT_SETTINGS, KC_5),
-        KC_LPRN,        KC_Q,           KC_W,           KC_F,           KC_P,           KC_B,
+        KC_LPRN,        KC_1,           KC_2,           KC_3,           KC_4,           KC_5,
+        KC_MINS,        KC_Q,           KC_W,           KC_F,           KC_P,           KC_B,
         KC_CAPS,        LGUI_T(KC_A),   LALT_T(KC_R),   LCTL_T(KC_S),   LSFT_T(KC_T),   KC_G,
-                        KC_Z,           KC_X,           KC_C,           KC_D,           KC_V,
-                                        MOD_SCRL,
+                        KC_Z,           KC_X,           KC_C,           LT(MOUSE, KC_D),KC_V,
+                                        KC_MPLY,
         // 側面スイッチ
         LT(NAV, KC_SPC),LT(_MOUSE, KC_TAB),                
         // 十字キーorジョイスティック                                                       // ジョイスティックスイッチ
@@ -63,8 +63,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // 追加スイッチ                                                                   // トグルスイッチ
         KC_NO,          KC_NO,                                                          MO(MOUSE),
         // 右手
-        LT(LIGHT_SETTINGS, KC_6), LT(BALL_SETTINGS, KC_7),           KC_8,           KC_9,           KC_0,           KC_BSLS,
-        KC_J,               KC_L,           KC_U,           KC_Y,           KC_QUOT,        KC_RPRN,
+        KC_6,               KC_7,           KC_8,           KC_9,           KC_0,           KC_RPRN,
+        KC_J,               KC_L,           KC_U,           KC_Y,           KC_QUOT,        KC_BSLS,
         MT(MOD_SCRL, KC_M), RSFT_T(KC_N),   RCTL_T(KC_E),   LALT_T(KC_I),   RGUI_T(KC_O),   KC_SCLN,
         KC_K,               KC_H,           KC_COMM,        KC_DOT,         KC_SLSH,
                                                             KC_PSCR,
@@ -73,7 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // 十字キーorジョイスティック                                                       // ジョイスティックスイッチ
         KC_UP,              KC_DOWN,        KC_LEFT,        KC_RIGHT,                   KC_ENT,     
         // 追加スイッチ                                                                   // トグルスイッチ
-        KC_MS_BTN2,         KC_MS_BTN1,                                                 MO(MOUSE)
+        KC_MS_BTN2,         KC_MS_BTN1,                                                 MOD_SCRL
     ),
     [MEDIA] = LAYOUT(
         // 左手 
@@ -241,9 +241,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // 左手 
         // 天面スイッチ
         XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, R_CHMOD,
-        XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, CPI_I,   XXXXXXX,
+        XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, CPI_I,
         AUTO_MOUSE, XXXXXXX, XXXXXXX, R_ANG_D, R_INV,   R_ANG_I,
-                    XXXXXXX, XXXXXXX, XXXXXXX, CPI_D,   XXXXXXX,
+                    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, CPI_D,
                              INV_SCRL,
         // 側面スイッチ
         KC_NO,      KC_NO,                
