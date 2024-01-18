@@ -66,7 +66,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_6,               KC_7,           KC_8,           KC_9,           KC_0,           KC_RPRN,
         KC_J,               KC_L,           KC_U,           KC_Y,           KC_QUOT,        KC_BSLS,
         MT(MOD_SCRL, KC_M), RSFT_T(KC_N),   RCTL_T(KC_E),   LALT_T(KC_I),   RGUI_T(KC_O),   KC_SCLN,
-        KC_K,               KC_H,           KC_COMM,        KC_DOT,         KC_SLSH,
+        LT(MOUSE, KC_K),    KC_H,           KC_COMM,        KC_DOT,         KC_SLSH,
                                                             KC_PSCR,
         // 側面スイッチ
         LT(SYM, KC_ENT),    LT(NUM, KC_BSPC),                   
