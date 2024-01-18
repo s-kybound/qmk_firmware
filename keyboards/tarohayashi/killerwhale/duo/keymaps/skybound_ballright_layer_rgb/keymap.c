@@ -370,6 +370,16 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
         ENCODER_CCW_CW(KC_WH_U, KC_WH_D),
         ENCODER_CCW_CW(KC_WH_U, KC_WH_D)
     },
+    [MOUSE] =   { 
+        ENCODER_CCW_CW(KC_ESC, KC_TAB),
+        ENCODER_CCW_CW(REDO, UNDO),
+        ENCODER_CCW_CW(KC_WH_U, KC_WH_D),
+        ENCODER_CCW_CW(KC_WH_U, KC_WH_D),
+        ENCODER_CCW_CW(KC_DEL, KC_BSPC),
+        ENCODER_CCW_CW(KC_UP, KC_DOWN),
+        ENCODER_CCW_CW(KC_WH_U, KC_WH_D),
+        ENCODER_CCW_CW(KC_WH_U, KC_WH_D)
+    },
     [LIGHT_SETTINGS] =   { 
         ENCODER_CCW_CW(RGB_SPI, RGB_SPD), 
         ENCODER_CCW_CW(RGB_VAI, RGB_VAD), 
