@@ -10,15 +10,17 @@
 // レイヤー名
 enum layer_number {
     BASE = 0,
+    NOTAP,                                    // A layer without all of the mod/layer tap keys
     ONOFF, OFFON, ONON,                       // トグルスイッチで変更するレイヤー
     MEDIA, NAV, _MOUSE, SYM, NUM, FUN,        // Miryoku-style layers
-    LOWER, UPPER, UTIL,                       // 長押しで変更するレイヤー
-    MOUSE, BALL_SETTINGS, LIGHT_SETTINGS // 自動マウスレイヤー切り替えや設定用のレイヤー
+    LOWER, UPPER,                             // 長押しで変更するレイヤー
+    MOUSE, BALL_SETTINGS, LIGHT_SETTINGS      // 自動マウスレイヤー切り替えや設定用のレイヤー
 };
 
 enum combos {
     BASE_L,
     BASE_R,
+    NOTAP_L,
     MEDIA_R,
     NAV_R,
     _MOUSE_R,
@@ -35,9 +37,11 @@ const uint16_t PROGMEM mse_combo[] = {KC_BTN1, KC_BTN2, COMBO_END};
 const uint16_t PROGMEM sym_combo[] = {KC_RPRN, KC_UNDS, COMBO_END};
 const uint16_t PROGMEM num_combo[] = {KC_0, KC_MINS, COMBO_END};
 const uint16_t PROGMEM fun_combo[] = {KC_SPC, KC_TAB, COMBO_END};
+const uint16_t PROGMEM notap_combo[] = {KC_SPC, KC_TAB, COMBO_END};
 combo_t key_combos[] = {
     [BASE_L] = COMBO(base_esc_combo, LT(MEDIA, KC_ESC)),
     [BASE_R] = COMBO(base_del_combo, LT(FUN, KC_DEL)),
+    [NOTAP_L] = COMBO(notap_combo, KC_ESC),
     [MEDIA_R] = COMBO(media_combo, KC_MUTE),
     [NAV_R] = COMBO(nav_combo, KC_DEL), 
     [_MOUSE_R] = COMBO(mse_combo, KC_BTN3),
@@ -45,6 +49,21 @@ combo_t key_combos[] = {
     [NUM_L] = COMBO(num_combo, KC_DOT),
     [FUN_L] = COMBO(fun_combo, KC_APP),
 };
+
+bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
+    switch (combo_index) {
+        case FUN_L:
+            if (layer_state_is(NOTAP)) {
+                return false;
+            }
+        case NOTAP_L:
+            if (layer_state_is(SYM)) {
+                return false;
+            }
+    }
+
+    return true;
+}
 
 // キーマップの設定
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -61,19 +80,46 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // 十字キーorジョイスティック                                                       // ジョイスティックスイッチ
         KC_UP,          KC_DOWN,        KC_LEFT,        KC_RIGHT,                       KC_ENT,      
         // 追加スイッチ                                                                   // トグルスイッチ
-        KC_NO,          KC_NO,                                                          MO(MOUSE),
+        KC_NO,          KC_NO,                                                          KC_NO,
         // 右手
-        KC_6,               KC_7,           KC_8,           KC_9,           KC_0,           KC_RPRN,
-        KC_J,               KC_L,           KC_U,           KC_Y,           KC_QUOT,        KC_BSLS,
-        MT(MOD_SCRL, KC_M), RSFT_T(KC_N),   RCTL_T(KC_E),   LALT_T(KC_I),   RGUI_T(KC_O),   KC_SCLN,
-        KC_K,               LT(MOUSE, KC_H),KC_COMM,        KC_DOT,         KC_SLSH,
-                                                            KC_PSCR,
+        KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_RPRN,
+        KC_J,           KC_L,           KC_U,           KC_Y,           KC_QUOT,        KC_BSLS,
+        KC_M,           RSFT_T(KC_N),   RCTL_T(KC_E),   LALT_T(KC_I),   RGUI_T(KC_O),   KC_SCLN,
+        KC_K,           LT(MOUSE, KC_H),KC_COMM,        KC_DOT,         KC_SLSH,
+                                                        KC_PSCR,
         // 側面スイッチ
-        LT(SYM, KC_ENT),    LT(NUM, KC_BSPC),                   
+        LT(SYM, KC_ENT),LT(NUM, KC_BSPC),                   
         // 十字キーorジョイスティック                                                       // ジョイスティックスイッチ
         KC_UP,              KC_DOWN,        KC_LEFT,        KC_RIGHT,                   KC_ENT,     
         // 追加スイッチ                                                                   // トグルスイッチ
-        KC_MS_BTN2,         KC_MS_BTN1,                                                 MOD_SCRL
+        KC_MS_BTN2,         KC_MS_BTN1,                                                 MO(NOTAP)
+    ),
+    [NOTAP] = LAYOUT(
+        // 左手 
+        // 天面スイッチ
+        KC_LPRN,        KC_1,           KC_2,           KC_3,           KC_4,           KC_5,
+        KC_MINS,        KC_Q,           KC_W,           KC_F,           KC_P,           KC_B,
+        KC_CAPS,        KC_A,           KC_R,           KC_S,           KC_T,           KC_G,
+                        KC_Z,           KC_X,           KC_C,           KC_D,           KC_V,
+                                        KC_MPLY,
+        // 側面スイッチ
+        KC_SPC,         KC_TAB,                
+        // 十字キーorジョイスティック                                                       // ジョイスティックスイッチ
+        KC_UP,          KC_DOWN,        KC_LEFT,        KC_RIGHT,                       KC_ENT,      
+        // 追加スイッチ                                                                   // トグルスイッチ
+        KC_NO,          KC_NO,                                                          KC_NO,
+        // 右手
+        KC_6,               KC_7,           KC_8,           KC_9,           KC_0,           KC_RPRN,
+        KC_J,               KC_L,           KC_U,           KC_Y,           KC_QUOT,        KC_BSLS,
+        KC_M,               KC_N,           KC_E,           KC_I,           KC_O,           KC_SCLN,
+        KC_K,               KC_H,           KC_COMM,        KC_DOT,         KC_SLSH,
+                                                            KC_PSCR,
+        // 側面スイッチ
+        KC_ENT,             KC_BSPC,                   
+        // 十字キーorジョイスティック                                                       // ジョイスティックスイッチ
+        KC_UP,              KC_DOWN,        KC_LEFT,        KC_RIGHT,                   KC_ENT,     
+        // 追加スイッチ                                                                   // トグルスイッチ
+        KC_MS_BTN2,         KC_MS_BTN1,                                                 KC_TRNS
     ),
     [MEDIA] = LAYOUT(
         // 左手 
@@ -254,7 +300,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // 右手
         _______, _______,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        MOD_SCRL, KC_MS_BTN1, KC_MS_BTN2, _______, XXXXXXX, XXXXXXX,
+        MOD_SCRL, KC_MS_BTN1, KC_MS_BTN2, KC_MS_BTN3, MOD_SCRL, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                    XXXXXXX,
         XXXXXXX, XXXXXXX,
@@ -301,6 +347,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
     [BASE] =   { 
+        ENCODER_CCW_CW(KC_ESC, KC_TAB),
+        ENCODER_CCW_CW(REDO, UNDO),
+        ENCODER_CCW_CW(KC_WH_U, KC_WH_D),
+        ENCODER_CCW_CW(KC_WH_U, KC_WH_D),
+        ENCODER_CCW_CW(KC_DEL, KC_BSPC),
+        ENCODER_CCW_CW(KC_UP, KC_DOWN),
+        ENCODER_CCW_CW(KC_WH_U, KC_WH_D),
+        ENCODER_CCW_CW(KC_WH_U, KC_WH_D)
+    },
+    [NOTAP] =   { 
         ENCODER_CCW_CW(KC_ESC, KC_TAB),
         ENCODER_CCW_CW(REDO, UNDO),
         ENCODER_CCW_CW(KC_WH_U, KC_WH_D),
@@ -407,6 +463,39 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
     process_record_addedkeycodes(keycode, record);
     return true;
 }
+
+const uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t* record) {
+    switch (keycode) {
+        case LT(MEDIA, KC_ESC):
+        case LT(NAV, KC_SPC):
+        case LT(MOUSE, KC_TAB):
+        case LT(SYM, KC_ENT):
+        case LT(NUM, KC_BSPC):
+        case LT(FUN, KC_DEL):
+            // Thumb row gets normal tapping term
+            return TAPPING_TERM;
+        default:
+            // Home row mods get quick tap
+            return QUICK_TAP_TERM;
+    }
+};
+
+const uint16_t get_tapping_term(uint16_t keycode, keyrecord_t* record) {
+    switch (keycode) {
+        case LGUI_T(KC_A):
+        case LALT_T(KC_R):
+        case LCTL_T(KC_S):
+        case LSFT_T(KC_T):
+        case RSFT_T(KC_N):
+        case RCTL_T(KC_E):
+        case LALT_T(KC_I):
+        case RGUI_T(KC_O):
+            // In case I ever want to reconfigure home row tapping term
+            return TAPPING_TERM;
+        default:
+            return TAPPING_TERM;
+    }
+};
 
 void matrix_scan_user(void) {
     matrix_scan_addedjoystick();
