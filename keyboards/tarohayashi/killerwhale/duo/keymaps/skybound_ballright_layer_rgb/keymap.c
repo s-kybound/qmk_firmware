@@ -70,9 +70,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [BASE] = LAYOUT(
         // 左手 
         // 天面スイッチ
-        KC_LPRN,        KC_1,           KC_2,           KC_3,           KC_4,           KC_5,
-        KC_MINS,        KC_Q,           KC_W,           KC_F,           KC_P,           KC_B,
-        KC_CAPS,        LGUI_T(KC_A),   LALT_T(KC_R),   LCTL_T(KC_S),   LSFT_T(KC_T),   KC_G,
+        KC_MINS,        KC_1,           KC_2,           KC_3,           KC_4,           KC_5,
+        KC_CAPS,        KC_Q,           KC_W,           KC_F,           KC_P,           KC_B,
+        KC_LPRN,        LGUI_T(KC_A),   LALT_T(KC_R),   LCTL_T(KC_S),   LSFT_T(KC_T),   KC_G,
                         KC_Z,           KC_X,           KC_C,           LT(MOUSE, KC_D),KC_V,
                                         KC_MPLY,
         // 側面スイッチ
@@ -82,9 +82,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // 追加スイッチ                                                                   // トグルスイッチ
         KC_NO,          KC_NO,                                                          KC_NO,
         // 右手
-        KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_RPRN,
-        KC_J,           KC_L,           KC_U,           KC_Y,           KC_QUOT,        KC_BSLS,
-        KC_M,           RSFT_T(KC_N),   RCTL_T(KC_E),   LALT_T(KC_I),   RGUI_T(KC_O),   KC_SCLN,
+        KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_BSLS,
+        KC_J,           KC_L,           KC_U,           KC_Y,           KC_QUOT,        KC_SCLN,
+        KC_M,           RSFT_T(KC_N),   RCTL_T(KC_E),   LALT_T(KC_I),   RGUI_T(KC_O),   KC_RPRN,
         KC_K,           LT(MOUSE, KC_H),KC_COMM,        KC_DOT,         KC_SLSH,
                                                         KC_PSCR,
         // 側面スイッチ
@@ -97,9 +97,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [NOTAP] = LAYOUT(
         // 左手 
         // 天面スイッチ
-        KC_LPRN,        KC_1,           KC_2,           KC_3,           KC_4,           KC_5,
-        KC_MINS,        KC_Q,           KC_W,           KC_F,           KC_P,           KC_B,
-        KC_CAPS,        KC_A,           KC_R,           KC_S,           KC_T,           KC_G,
+        KC_MINS,        KC_1,           KC_2,           KC_3,           KC_4,           KC_5,
+        KC_CAPS,        KC_Q,           KC_W,           KC_F,           KC_P,           KC_B,
+        KC_LPRN,        KC_A,           KC_R,           KC_S,           KC_T,           KC_G,
                         KC_Z,           KC_X,           KC_C,           KC_D,           KC_V,
                                         KC_MPLY,
         // 側面スイッチ
@@ -109,9 +109,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // 追加スイッチ                                                                   // トグルスイッチ
         KC_NO,          KC_NO,                                                          KC_NO,
         // 右手
-        KC_6,               KC_7,           KC_8,           KC_9,           KC_0,           KC_RPRN,
-        KC_J,               KC_L,           KC_U,           KC_Y,           KC_QUOT,        KC_BSLS,
-        KC_M,               KC_N,           KC_E,           KC_I,           KC_O,           KC_SCLN,
+        KC_6,               KC_7,           KC_8,           KC_9,           KC_0,           KC_BSLS,
+        KC_J,               KC_L,           KC_U,           KC_Y,           KC_QUOT,        KC_SCLN,
+        KC_M,               KC_N,           KC_E,           KC_I,           KC_O,           KC_RPRN,
         KC_K,               KC_H,           KC_COMM,        KC_DOT,         KC_SLSH,
                                                             KC_PSCR,
         // 側面スイッチ
