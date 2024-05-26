@@ -41,9 +41,9 @@ const uint16_t PROGMEM game_combo[] = {KC_SPC, KC_TAB, COMBO_END};
 combo_t key_combos[] = {
     [BASE_L] = COMBO(base_esc_combo, LT(MEDIA, KC_ESC)),
     [BASE_R] = COMBO(base_del_combo, LT(FUN, KC_DEL)),
-    [GAME_L] = COMBO(fun_combo, KC_ESC),
+    [GAME_L] = COMBO(game_combo, KC_ESC),
     [MEDIA_R] = COMBO(media_combo, KC_MUTE),
-    [NAV_R] = COMBO(nav_combo, KC_DEL), 
+    [NAV_R] = COMBO(nav_combo, KC_DEL),
     [_MOUSE_R] = COMBO(mse_combo, KC_BTN3),
     [SYM_L] = COMBO(sym_combo, KC_LPRN),
     [NUM_L] = COMBO(num_combo, KC_DOT),
@@ -52,16 +52,38 @@ combo_t key_combos[] = {
 
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
     switch (combo_index) {
-        case FUN_L:
-            if (layer_state_is(GAME)) {
-                return false;
-            }
         case GAME_L:
-            if (layer_state_is(SYM)) {
-                return false;
+            if (layer_state_is(GAME)) {
+                return true;
             }
+            return false;
+        case MEDIA_R:
+            if (layer_state_is(MEDIA)) {
+                return true;
+            }
+            return false;
+        case NAV_R:
+            // whatever it is, sure
+            return true;
+        case _MOUSE_R:
+            // whatever it is, sure
+            return true;
+        case SYM_L:
+            if (layer_state_is(SYM)) {
+                return true;
+            }
+            return false;
+        case NUM_L:
+            if (layer_state_is(NUM)) {
+                return true;
+            }
+            return false;
+        case FUN_L:
+            if (layer_state_is(FUN) && !layer_state_is(GAME)) {
+                return true;
+            }
+            return false;
     }
-
     return true;
 }
 
@@ -98,12 +120,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // 左手 
         // 天面スイッチ
         // in this case, the only change to qwerty is a slight shift to put QE-WASD in the middle - else, all is the same
-        KC_TAB,         KC_1,           KC_2,           KC_3,           KC_4,           KC_5,
-        KC_CAPS,        KC_R,           KC_Q,           KC_W,           KC_E,           KC_T,
+        // also, since we already have tab in thumbs, esc is here
+        KC_ESC,         KC_1,           KC_2,           KC_3,           KC_4,           KC_5,
+        KC_LCTL,        KC_R,           KC_Q,           KC_W,           KC_E,           KC_T,
         KC_LSFT,        KC_F,           KC_A,           KC_S,           KC_D,           KC_G,
                         KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,
-                                        KC_MPLY,
+                                        KC_LALT,
         // 側面スイッチ
+        // TODO minor bug where spc and tab here produce MENU instead of esc
         KC_SPC,         KC_TAB,                
         // 十字キーorジョイスティック                                                       // ジョイスティックスイッチ
         KC_UP,          KC_DOWN,        KC_LEFT,        KC_RIGHT,                       KC_ENT,      
@@ -115,7 +139,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           KC_ENT,
         KC_H,           KC_MS_BTN1,     KC_MS_BTN2,     KC_L,           KC_SCLN,        KC_RSFT,
         KC_N,           KC_M,           KC_COMM,        KC_DOT,         KC_SLSH,
-                                                            KC_PSCR,
+                                                        KC_MPLY,
         // 側面スイッチ
         KC_ENT,         KC_BSPC,
         // 十字キーorジョイスティック                                                       // ジョイスティックスイッチ
