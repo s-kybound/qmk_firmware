@@ -29,6 +29,21 @@ enum combos {
     FUN_L
 };
 
+// skybound changes
+// null bind/canceling keycodes for sharper 
+// movement in gaming layer
+enum null_cancel_keycodes {
+    NC_W = SAFE_RANGE,
+    NC_A,
+    NC_S,
+    NC_D,
+};
+
+bool w_down = false;
+bool a_down = false;
+bool s_down = false;
+bool d_down = false;
+
 const uint16_t PROGMEM base_esc_combo[] = {LT(NAV, KC_SPC), LT(_MOUSE, KC_TAB), COMBO_END};
 const uint16_t PROGMEM base_del_combo[] = {LT(SYM, KC_ENT), LT(NUM, KC_BSPC), COMBO_END};
 const uint16_t PROGMEM media_combo[] = {KC_MSTP, KC_MPLY, COMBO_END};
@@ -122,8 +137,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // in this case, the only change to qwerty is a slight shift to put QE-WASD in the middle - else, all is the same
         // also, since we already have tab in thumbs, esc is here
         KC_ESC,         KC_1,           KC_2,           KC_3,           KC_4,           KC_5,
-        KC_LCTL,        KC_R,           KC_Q,           KC_W,           KC_E,           KC_T,
-        KC_LSFT,        KC_F,           KC_A,           KC_S,           KC_D,           KC_G,
+        KC_LCTL,        KC_R,           KC_Q,           NC_W,           KC_E,           KC_T,
+        KC_LSFT,        KC_F,           NC_A,           NC_S,           NC_D,           KC_G,
                         KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,
                                         KC_LALT,
         // 側面スイッチ
@@ -489,6 +504,79 @@ void matrix_init_user(void) {
 // キースキャン関係
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
     process_record_addedkeycodes(keycode, record);
+    switch (keycode) {
+    case NC_W:
+        if (record->event.pressed) {
+            if (s_down) {
+                unregister_code(KC_S);
+            }
+            register_code(KC_W);
+            w_down = true;
+        } else {
+            unregister_code(KC_W);
+            w_down = false;
+
+            if (s_down) {
+                register_code(KC_S);
+            }
+
+        }
+        return false;
+        break;
+    case NC_A:
+        if (record->event.pressed) {
+            if (d_down) {
+                unregister_code(KC_D);
+            }
+            register_code(KC_A);
+            a_down = true;
+        } else {
+            unregister_code(KC_A);
+            a_down = false;
+
+            if (d_down) {
+                register_code(KC_D);
+            }
+
+        }
+        return false;
+        break;
+    case NC_S:
+        if (record->event.pressed) {
+            if (w_down) {
+                unregister_code(KC_W);
+            }
+            register_code(KC_S);
+            s_down = true;
+        } else {
+            unregister_code(KC_S);
+            s_down = false;
+
+            if (w_down) {
+                register_code(KC_W);
+            }
+
+        }
+        return false;
+        break;
+    case NC_D:
+        if (record->event.pressed) {
+            if (a_down) {
+                unregister_code(KC_A);
+            }
+            register_code(KC_D);
+            d_down = true;
+        } else {
+            unregister_code(KC_D);
+            d_down = false;
+
+            if (a_down) {
+                register_code(KC_A);
+            }
+        }
+        return false;
+        break;
+    }
     return true;
 }
 
