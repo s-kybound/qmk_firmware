@@ -11,6 +11,7 @@
 enum layer_number {
     BASE = 0,
     GAME,                                     // A layer designed to work with games expecting a QWERTY keyboard
+    NC_GAME,                                  // A variant of the upper layer designed to enable null binding
     ONOFF, OFFON, ONON,                       // トグルスイッチで変更するレイヤー
     MEDIA, NAV, _MOUSE, SYM, NUM, FUN,        // Miryoku-style layers
     LOWER, UPPER,                             // 長押しで変更するレイヤー
@@ -68,7 +69,7 @@ combo_t key_combos[] = {
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
     switch (combo_index) {
         case GAME_L:
-            if (layer_state_is(GAME)) {
+            if (layer_state_is(GAME) || layer_state_is(NC_GAME)) {
                 return true;
             }
             return false;
@@ -94,7 +95,7 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
             }
             return false;
         case FUN_L:
-            if (layer_state_is(FUN) && !layer_state_is(GAME)) {
+            if (layer_state_is(FUN) && !(layer_state_is(GAME) || layer_state_is(NC_GAME))) {
                 return true;
             }
             return false;
@@ -132,6 +133,38 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_MS_BTN2,         KC_MS_BTN1,                                                 MO(GAME)
     ),
     [GAME] = LAYOUT(
+        // 左手 
+        // 天面スイッチ
+        // in this case, the only change to qwerty is a slight shift to put QE-WASD in the middle - else, all is the same
+        // also, since we already have tab in thumbs, esc is here
+        KC_ESC,         KC_1,           KC_2,           KC_3,           KC_4,           KC_5,
+        KC_LCTL,        KC_R,           KC_Q,           KC_W,           KC_E,           KC_T,
+        KC_LSFT,        KC_F,           KC_A,           KC_S,           KC_D,           KC_G,
+                        KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,
+                                        KC_LALT,
+        // 側面スイッチ
+        // TODO minor bug where spc and tab here produce MENU instead of esc
+        KC_SPC,         KC_TAB,                
+        // 十字キーorジョイスティック                                                       // ジョイスティックスイッチ
+        KC_UP,          KC_DOWN,        KC_LEFT,        KC_RIGHT,                       KC_ENT,      
+        // 追加スイッチ                                                                   // トグルスイッチ
+        KC_NO,          KC_NO,                                                          KC_NO,
+        // 右手
+        // how useful are j and k? in this case, replace with the mouse buttons, and move j, k elsewhere
+        KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_BSLS,
+        KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           KC_ENT,
+        KC_H,           KC_MS_BTN1,     KC_MS_BTN2,     KC_L,           KC_SCLN,        KC_RSFT,
+        KC_N,           KC_M,           KC_COMM,        KC_DOT,         KC_SLSH,
+                                                        KC_MPLY,
+        // 側面スイッチ
+        KC_ENT,         KC_BSPC,
+        // 十字キーorジョイスティック                                                       // ジョイスティックスイッチ
+        KC_UP,          KC_DOWN,        KC_LEFT,        KC_RIGHT,                      KC_ENT,
+        // 追加スイッチ                                                                  // トグルスイッチ
+        // in case we ever need j and k again, they are now here
+        KC_J,           KC_K,                                                          KC_TRNS
+    ),
+    [NC_GAME] = LAYOUT(
         // 左手 
         // 天面スイッチ
         // in this case, the only change to qwerty is a slight shift to put QE-WASD in the middle - else, all is the same
@@ -329,10 +362,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [MOUSE] = LAYOUT(
         // 左手 
         // 天面スイッチ
-        XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, R_CHMOD,
+        // change here - removal of r_chmod as it only introduces more confusion
+        //XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, R_CHMOD,
+        XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, CPI_I,
-        AUTO_MOUSE, XXXXXXX, XXXXXXX, R_ANG_D, R_INV,   R_ANG_I,
-                    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, CPI_D,
+        // change here - no auto mouse, as it introduces the risk of randomly changing settings
+        //AUTO_MOUSE,    XXXXXXX, XXXXXXX, R_ANG_D, R_INV,   R_ANG_I,
+        // change here - added left hand modifiers in case we need to click stuff
+        KC_LGUI,    XXXXXXX, XXXXXXX, R_ANG_D, R_INV,   R_ANG_I,
+                    KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX, CPI_D,
                              INV_SCRL,
         // 側面スイッチ
         KC_NO,      KC_NO,                
@@ -347,42 +385,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         XXXXXXX,    KC_RSFT,    KC_RCTL, KC_LALT, KC_RGUI,
                                    XXXXXXX,
         XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,
-        XXXXXXX, XXXXXXX,                            XXXXXXX
-    ),
-    [BALL_SETTINGS] = LAYOUT(
-        XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                             XXXXXXX,
-        XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,
-        XXXXXXX, XXXXXXX,                           XXXXXXX,
-        R_CHMOD, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, CPI_I,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        R_ANG_D, R_INV,   R_ANG_I, XXXXXXX, XXXXXXX, AUTO_MOUSE,
-        XXXXXXX, CPI_D,   XXXXXXX, XXXXXXX, XXXXXXX,
-                                   INV_SCRL,
-        XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,
-        XXXXXXX, XXXXXXX,                            XXXXXXX
-    ),
-    [LIGHT_SETTINGS] = LAYOUT (
-        XXXXXXX, XXXXXXX, XXXXXXX, RGB_MOD, RGB_MOD, _______,
-        XXXXXXX, RGB_SPI, RGB_VAI, RGB_SAI, RGB_HUI, RGB_TOG,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                 RGB_SPD, RGB_VAD, RGB_SAD, RGB_HUD, XXXXXXX,
-                          XXXXXXX,
-        RGB_MOD, RGB_MOD,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,
-        XXXXXXX, XXXXXXX,                            XXXXXXX,
-        _______, RGB_MOD, RGB_MOD, XXXXXXX, XXXXXXX, XXXXXXX,
-        RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, RGB_SPI, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, RGB_HUD, RGB_SAD, RGB_VAD, RGB_SPD,
-                                   XXXXXXX,
-        RGB_MOD, RGB_MOD,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,
         XXXXXXX, XXXXXXX,                            XXXXXXX
     )
@@ -478,17 +480,7 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
         ENCODER_CCW_CW(KC_UP, KC_DOWN),
         ENCODER_CCW_CW(KC_WH_U, KC_WH_D),
         ENCODER_CCW_CW(KC_WH_U, KC_WH_D)
-    },
-    [LIGHT_SETTINGS] =   { 
-        ENCODER_CCW_CW(RGB_SPI, RGB_SPD), 
-        ENCODER_CCW_CW(RGB_VAI, RGB_VAD), 
-        ENCODER_CCW_CW(RGB_SAI, RGB_SAD), 
-        ENCODER_CCW_CW(RGB_HUI, RGB_HUD),
-        ENCODER_CCW_CW(RGB_SPI, RGB_SPD), 
-        ENCODER_CCW_CW(RGB_VAI, RGB_VAD), 
-        ENCODER_CCW_CW(RGB_SAI, RGB_SAD), 
-        ENCODER_CCW_CW(RGB_HUI, RGB_HUD)
-    },
+    }
 };
 
 // 初期化関係
