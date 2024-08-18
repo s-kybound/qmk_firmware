@@ -130,14 +130,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // 十字キーorジョイスティック                                                       // ジョイスティックスイッチ
         KC_UP,              KC_DOWN,        KC_LEFT,        KC_RIGHT,                   KC_ENT,     
         // 追加スイッチ                                                                   // トグルスイッチ
-        KC_MS_BTN2,         KC_MS_BTN1,                                                 MO(GAME)
+        KC_MS_BTN2,         KC_MS_BTN1,                                                 XXXXXXX
     ),
     [GAME] = LAYOUT(
         // 左手 
         // 天面スイッチ
         // in this case, the only change to qwerty is a slight shift to put QE-WASD in the middle - else, all is the same
         // also, since we already have tab in thumbs, esc is here
-        KC_ESC,         KC_1,           KC_2,           KC_3,           KC_4,           KC_5,
+        TO(BASE),       KC_1,           KC_2,           KC_3,           KC_4,           KC_5,
         KC_LCTL,        KC_R,           KC_Q,           KC_W,           KC_E,           KC_T,
         KC_LSFT,        KC_F,           KC_A,           KC_S,           KC_D,           KC_G,
                         KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,
@@ -162,14 +162,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_UP,          KC_DOWN,        KC_LEFT,        KC_RIGHT,                      KC_ENT,
         // 追加スイッチ                                                                  // トグルスイッチ
         // in case we ever need j and k again, they are now here
-        KC_J,           KC_K,                                                          KC_TRNS
+        KC_J,           KC_K,                                                          MO(NC_GAME)
     ),
     [NC_GAME] = LAYOUT(
         // 左手 
         // 天面スイッチ
         // in this case, the only change to qwerty is a slight shift to put QE-WASD in the middle - else, all is the same
         // also, since we already have tab in thumbs, esc is here
-        KC_ESC,         KC_1,           KC_2,           KC_3,           KC_4,           KC_5,
+        //                                                                              for testing only
+        TO(BASE),       KC_1,           KC_2,           KC_3,           KC_4,           KC_1,
         KC_LCTL,        KC_R,           KC_Q,           NC_W,           KC_E,           KC_T,
         KC_LSFT,        KC_F,           NC_A,           NC_S,           NC_D,           KC_G,
                         KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,
@@ -193,13 +194,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // 十字キーorジョイスティック                                                       // ジョイスティックスイッチ
         KC_UP,          KC_DOWN,        KC_LEFT,        KC_RIGHT,                      KC_ENT,
         // 追加スイッチ                                                                  // トグルスイッチ
-        // in case we ever need j and k again, they are now here
+        // in case we ever need j and k again, they are now here                       also, switching system reconfigured to activate nullbinds
         KC_J,           KC_K,                                                          KC_TRNS
     ),
     [MEDIA] = LAYOUT(
         // 左手 
         // 天面スイッチ
-        KC_NO,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
+        TO(GAME),   KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
         KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,
         KC_NO,      KC_LGUI,    KC_LALT,    KC_LCTL,    KC_LSFT,    KC_NO,
                     KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,
@@ -226,7 +227,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [NAV] = LAYOUT(
         // 左手 
         // 天面スイッチ
-        KC_NO,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
+        TO(GAME),   KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
         KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,
         KC_NO,      KC_LGUI,    KC_LALT,    KC_LCTL,    KC_LSFT,    KC_NO,
                     KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,
@@ -253,7 +254,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_MOUSE] = LAYOUT(
         // 左手 
         // 天面スイッチ
-        KC_NO,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
+        TO(GAME),   KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
         KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,
         KC_NO,      KC_LGUI,    KC_LALT,    KC_LCTL,    KC_LSFT,    KC_NO,
                     KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,
