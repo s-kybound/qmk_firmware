@@ -11,7 +11,6 @@
 enum layer_number {
     BASE = 0,
     GAME,                                     // A layer designed to work with games expecting a QWERTY keyboard
-    NC_GAME,                                  // A variant of the upper layer designed to enable null binding
     ONOFF, OFFON, ONON,                       // トグルスイッチで変更するレイヤー
     MEDIA, NAV, _MOUSE, SYM, NUM, FUN,        // Miryoku-style layers
     LOWER, UPPER,                             // 長押しで変更するレイヤー
@@ -38,8 +37,10 @@ enum null_cancel_keycodes {
     NC_A,
     NC_S,
     NC_D,
+    NC_ON
 };
 
+bool nc_on = false;
 bool w_down = false;
 bool a_down = false;
 bool s_down = false;
@@ -69,7 +70,7 @@ combo_t key_combos[] = {
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
     switch (combo_index) {
         case GAME_L:
-            if (layer_state_is(GAME) || layer_state_is(NC_GAME)) {
+            if (layer_state_is(GAME)) {
                 return true;
             }
             return false;
@@ -95,7 +96,7 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
             }
             return false;
         case FUN_L:
-            if (layer_state_is(FUN) && !(layer_state_is(GAME) || layer_state_is(NC_GAME))) {
+            if (layer_state_is(FUN) && !layer_state_is(GAME)) {
                 return true;
             }
             return false;
@@ -130,7 +131,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // 十字キーorジョイスティック                                                       // ジョイスティックスイッチ
         KC_UP,              KC_DOWN,        KC_LEFT,        KC_RIGHT,                   KC_ENT,     
         // 追加スイッチ                                                                   // トグルスイッチ
-        KC_MS_BTN2,         KC_MS_BTN1,                                                 XXXXXXX
+        KC_MS_BTN2,         KC_MS_BTN1,                                                 NC_ON
     ),
     [GAME] = LAYOUT(
         // 左手 
@@ -138,39 +139,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // in this case, the only change to qwerty is a slight shift to put QE-WASD in the middle - else, all is the same
         // also, since we already have tab in thumbs, esc is here
         TO(BASE),       KC_1,           KC_2,           KC_3,           KC_4,           KC_5,
-        KC_LCTL,        KC_R,           KC_Q,           KC_W,           KC_E,           KC_T,
-        KC_LSFT,        KC_F,           KC_A,           KC_S,           KC_D,           KC_G,
-                        KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,
-                                        KC_LALT,
-        // 側面スイッチ
-        // TODO minor bug where spc and tab here produce MENU instead of esc
-        KC_SPC,         KC_TAB,                
-        // 十字キーorジョイスティック                                                       // ジョイスティックスイッチ
-        KC_UP,          KC_DOWN,        KC_LEFT,        KC_RIGHT,                       KC_ENT,      
-        // 追加スイッチ                                                                   // トグルスイッチ
-        KC_NO,          KC_NO,                                                          KC_NO,
-        // 右手
-        // how useful are j and k? in this case, replace with the mouse buttons, and move j, k elsewhere
-        KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_BSLS,
-        KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           KC_ENT,
-        KC_H,           KC_MS_BTN1,     KC_MS_BTN2,     KC_L,           KC_SCLN,        KC_RSFT,
-        KC_N,           KC_M,           KC_COMM,        KC_DOT,         KC_SLSH,
-                                                        KC_MPLY,
-        // 側面スイッチ
-        KC_ENT,         KC_BSPC,
-        // 十字キーorジョイスティック                                                       // ジョイスティックスイッチ
-        KC_UP,          KC_DOWN,        KC_LEFT,        KC_RIGHT,                      KC_ENT,
-        // 追加スイッチ                                                                  // トグルスイッチ
-        // in case we ever need j and k again, they are now here
-        KC_J,           KC_K,                                                          MO(NC_GAME)
-    ),
-    [NC_GAME] = LAYOUT(
-        // 左手 
-        // 天面スイッチ
-        // in this case, the only change to qwerty is a slight shift to put QE-WASD in the middle - else, all is the same
-        // also, since we already have tab in thumbs, esc is here
-        //                                                                              for testing only
-        TO(BASE),       KC_1,           KC_2,           KC_3,           KC_4,           KC_1,
         KC_LCTL,        KC_R,           KC_Q,           NC_W,           KC_E,           KC_T,
         KC_LSFT,        KC_F,           NC_A,           NC_S,           NC_D,           KC_G,
                         KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,
@@ -194,8 +162,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // 十字キーorジョイスティック                                                       // ジョイスティックスイッチ
         KC_UP,          KC_DOWN,        KC_LEFT,        KC_RIGHT,                      KC_ENT,
         // 追加スイッチ                                                                  // トグルスイッチ
-        // in case we ever need j and k again, they are now here                       also, switching system reconfigured to activate nullbinds
-        KC_J,           KC_K,                                                          KC_TRNS
+        // in case we ever need j and k again, they are now here
+        KC_J,           KC_K,                                                          NC_ON
     ),
     [MEDIA] = LAYOUT(
         // 左手 
@@ -498,73 +466,111 @@ void matrix_init_user(void) {
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
     process_record_addedkeycodes(keycode, record);
     switch (keycode) {
-    case NC_W:
+    // creating a null bind modifier
+    case NC_ON:
         if (record->event.pressed) {
-            if (s_down) {
-                unregister_code(KC_S);
-            }
-            register_code(KC_W);
-            w_down = true;
+            nc_on = true;
         } else {
-            unregister_code(KC_W);
-            w_down = false;
+            nc_on = false;
+        }
+        return false;
+        break;
+    case NC_W:
+        if (nc_on) {
+            if (record->event.pressed) {
+                if (s_down) {
+                    unregister_code(KC_S);
+                }
+                register_code(KC_W);
+                w_down = true;
+            } else {
+                unregister_code(KC_W);
+                w_down = false;
 
-            if (s_down) {
-                register_code(KC_S);
+                if (s_down) {
+                    register_code(KC_S);
+                }
             }
-
+        } else {
+            if (record->event.pressed) {
+                register_code(KC_W);
+            } else {
+                unregister_code(KC_W);
+            }
         }
         return false;
         break;
     case NC_A:
-        if (record->event.pressed) {
-            if (d_down) {
-                unregister_code(KC_D);
+        if (nc_on) {
+            if (record->event.pressed) {
+                if (d_down) {
+                    unregister_code(KC_D);
+                }
+                register_code(KC_A);
+                a_down = true;
+            } else {
+                unregister_code(KC_A);
+                a_down = false;
+
+                if (d_down) {
+                    register_code(KC_D);
+                }
             }
-            register_code(KC_A);
-            a_down = true;
         } else {
-            unregister_code(KC_A);
-            a_down = false;
-
-            if (d_down) {
-                register_code(KC_D);
+            if (record->event.pressed) {
+                register_code(KC_A);
+            } else {
+                unregister_code(KC_A);
             }
-
         }
         return false;
         break;
     case NC_S:
-        if (record->event.pressed) {
-            if (w_down) {
-                unregister_code(KC_W);
+        if (nc_on) {
+            if (record->event.pressed) {
+                if (w_down) {
+                    unregister_code(KC_W);
+                }
+                register_code(KC_S);
+                s_down = true;
+            } else {
+                unregister_code(KC_S);
+                s_down = false;
+
+                if (w_down) {
+                    register_code(KC_W);
+                }
             }
-            register_code(KC_S);
-            s_down = true;
         } else {
-            unregister_code(KC_S);
-            s_down = false;
-
-            if (w_down) {
-                register_code(KC_W);
+            if (record->event.pressed) {
+                register_code(KC_S);
+            } else {
+                unregister_code(KC_S);
             }
-
         }
         return false;
         break;
     case NC_D:
-        if (record->event.pressed) {
-            if (a_down) {
-                unregister_code(KC_A);
-            }
-            register_code(KC_D);
-            d_down = true;
-        } else {
-            unregister_code(KC_D);
-            d_down = false;
+        if (nc_on) {
+            if (record->event.pressed) {
+                if (a_down) {
+                    unregister_code(KC_A);
+                }
+                register_code(KC_D);
+                d_down = true;
+            } else {
+                unregister_code(KC_D);
+                d_down = false;
 
-            if (a_down) {
-                register_code(KC_A);
+                if (a_down) {
+                    register_code(KC_A);
+                }
+            }
+        } else {
+            if (record->event.pressed) {
+                register_code(KC_D);
+            } else {
+                unregister_code(KC_D);
             }
         }
         return false;
