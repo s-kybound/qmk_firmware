@@ -12,9 +12,9 @@ enum layer_number {
     BASE = 0,
     GAME,                                     // A layer designed to work with games expecting a QWERTY keyboard
     ONOFF, OFFON, ONON,                       // トグルスイッチで変更するレイヤー
-    MEDIA, NAV, _MOUSE, SYM, NUM, FUN,        // Miryoku-style layers
+    MEDIA, NAV, MOUSE, SYM, NUM, FUN,        // Miryoku-style layers
     LOWER, UPPER,                             // 長押しで変更するレイヤー
-    MOUSE, BALL_SETTINGS, LIGHT_SETTINGS      // 自動マウスレイヤー切り替えや設定用のレイヤー
+    TRACKBALL                                 // 自動マウスレイヤー切り替えや設定用のレイヤー
 };
 
 enum combos {
@@ -23,7 +23,7 @@ enum combos {
     GAME_L,
     MEDIA_R,
     NAV_R,
-    _MOUSE_R,
+    MOUSE_R,
     SYM_L,
     NUM_L,
     FUN_L
@@ -51,7 +51,7 @@ bool a_down = false;
 bool s_down = false;
 bool d_down = false;
 
-const uint16_t PROGMEM base_esc_combo[] = {LT(NAV, KC_SPC), LT(_MOUSE, KC_TAB), COMBO_END};
+const uint16_t PROGMEM base_esc_combo[] = {LT(NAV, KC_SPC), LT(MOUSE, KC_TAB), COMBO_END};
 const uint16_t PROGMEM base_del_combo[] = {LT(SYM, KC_ENT), LT(NUM, KC_BSPC), COMBO_END};
 const uint16_t PROGMEM media_combo[] = {KC_MSTP, KC_MPLY, COMBO_END};
 const uint16_t PROGMEM nav_combo[] = {KC_ENT, KC_BSPC, COMBO_END};
@@ -66,7 +66,7 @@ combo_t key_combos[] = {
     [GAME_L] = COMBO(game_combo, KC_ESC),
     [MEDIA_R] = COMBO(media_combo, KC_MUTE),
     [NAV_R] = COMBO(nav_combo, KC_DEL),
-    [_MOUSE_R] = COMBO(mse_combo, KC_BTN3),
+    [MOUSE_R] = COMBO(mse_combo, KC_BTN3),
     [SYM_L] = COMBO(sym_combo, KC_LPRN),
     [NUM_L] = COMBO(num_combo, KC_DOT),
     [FUN_L] = COMBO(fun_combo, KC_APP),
@@ -87,7 +87,7 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
         case NAV_R:
             // whatever it is, sure
             return true;
-        case _MOUSE_R:
+        case MOUSE_R:
             // whatever it is, sure
             return true;
         case SYM_L:
@@ -114,29 +114,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [BASE] = LAYOUT(
         // 左手 
         // 天面スイッチ
-        KC_MINS,        KC_1,           KC_2,           KC_3,           KC_4,           KC_5,
-        KC_CAPS,        KC_Q,           KC_W,           KC_F,           KC_P,           KC_B,
-        KC_LPRN,        LGUI_T(KC_A),   LALT_T(KC_R),   LCTL_T(KC_S),   LSFT_T(KC_T),   KC_G,
-                        KC_Z,           KC_X,           KC_C,           LT(MOUSE, KC_D),KC_V,
-                                        KC_MPLY,
+        KC_MINS,            KC_1,               KC_2,               KC_3,               KC_4,               KC_5,
+        KC_CAPS,            KC_Q,               KC_W,               KC_F,               KC_P,               KC_B,
+        KC_LPRN,            LGUI_T(KC_A),       LALT_T(KC_R),       LCTL_T(KC_S),       LSFT_T(KC_T),       KC_G,
+                            KC_Z,               KC_X,               KC_C,               LT(TRACKBALL, KC_D),KC_V,
+                                                KC_MPLY,
         // 側面スイッチ
-        LT(NAV, KC_SPC),LT(_MOUSE, KC_TAB),                
-        // 十字キーorジョイスティック                                                     // ジョイスティックスイッチ
-        KC_UP,          KC_DOWN,        KC_LEFT,        KC_RIGHT,                       KC_ENT,      
-        // 追加スイッチ                                                                  // トグルスイッチ
-        KC_NO,          KC_NO,                                                          KC_NO,
+        LT(NAV, KC_SPC),    LT(MOUSE, KC_TAB),                
+        // 十字キーorジョイスティック                                                                         // ジョイスティックスイッチ
+        KC_UP,              KC_DOWN,            KC_LEFT,            KC_RIGHT,                               KC_ENT,      
+        // 追加スイッチ                                                                                      // トグルスイッチ
+        KC_NO,              KC_NO,                                                                          KC_NO,
         // 右手
-        KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_BSLS,
-        KC_J,           KC_L,           KC_U,           KC_Y,           KC_QUOT,        KC_SCLN,
-        KC_M,           RSFT_T(KC_N),   RCTL_T(KC_E),   LALT_T(KC_I),   RGUI_T(KC_O),   KC_RPRN,
-        KC_K,           LT(MOUSE, KC_H),KC_COMM,        KC_DOT,         KC_SLSH,
-                                                        KC_PSCR,
+        KC_6,               KC_7,               KC_8,               KC_9,               KC_0,               KC_BSLS,
+        KC_J,               KC_L,               KC_U,               KC_Y,               KC_QUOT,            KC_SCLN,
+        KC_M,               RSFT_T(KC_N),       RCTL_T(KC_E),       LALT_T(KC_I),       RGUI_T(KC_O),       KC_RPRN,
+        KC_K,               LT(TRACKBALL, KC_H),KC_COMM,            KC_DOT,             KC_SLSH,
+                                                                    KC_PSCR,
         // 側面スイッチ
-        LT(SYM, KC_ENT),LT(NUM, KC_BSPC),                   
-        // 十字キーorジョイスティック                                                     // ジョイスティックスイッチ
-        KC_UP,          KC_DOWN,        KC_LEFT,        KC_RIGHT,                       KC_ENT,     
-        // 追加スイッチ                                                                  // トグルスイッチ
-        KC_MS_BTN2,     KC_MS_BTN1,                                                     NC_ON
+        LT(SYM, KC_ENT),    LT(NUM, KC_BSPC),                   
+        // 十字キーorジョイスティック                                                                         // ジョイスティックスイッチ
+        KC_UP,              KC_DOWN,            KC_LEFT,            KC_RIGHT,                               KC_ENT,     
+        // 追加スイッチ                                                                                      // トグルスイッチ
+        KC_MS_BTN2,         KC_MS_BTN1,                                                                     NC_ON
     ),
     [GAME] = LAYOUT(
         // 左手 
@@ -222,7 +222,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // 追加スイッチ                                              // トグルスイッチ
         KC_TRNS,    KC_TRNS,                                        KC_TRNS
     ),
-    [_MOUSE] = LAYOUT(
+    [MOUSE] = LAYOUT(
         // 左手 
         // 天面スイッチ
         TO(GAME),   KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
@@ -330,7 +330,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // 追加スイッチ                                              // トグルスイッチ
         KC_TRNS,    KC_TRNS,                                        KC_TRNS
     ),
-    [MOUSE] = LAYOUT(
+    [TRACKBALL] = LAYOUT(
         // 左手 
         // 天面スイッチ
         XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,
@@ -345,14 +345,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // 追加スイッチ                                              // トグルスイッチ
         KC_TRNS,    KC_TRNS,                                        KC_TRNS,
         // 右手
-        _______,    _______,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,
+        XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,
         XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,
         MOD_SCRL,   KC_MS_BTN1, KC_MS_BTN2, KC_MS_BTN3, MOD_SCRL,   XXXXXXX,
         XXXXXXX,    KC_RSFT,    KC_RCTL,    KC_LALT,    KC_RGUI,
                                             XXXXXXX,
-        XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,
-        XXXXXXX, XXXXXXX,                            XXXXXXX
+        XXXXXXX,    XXXXXXX,
+        XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,                XXXXXXX,
+        XXXXXXX,    XXXXXXX,                                        XXXXXXX
     )
 };
 
@@ -397,7 +397,7 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
         ENCODER_CCW_CW(KC_WH_U, KC_WH_D),
         ENCODER_CCW_CW(KC_WH_U, KC_WH_D)
     },
-    [_MOUSE] =   { 
+    [MOUSE] =   { 
         ENCODER_CCW_CW(KC_ESC, KC_TAB),
         ENCODER_CCW_CW(REDO, UNDO),
         ENCODER_CCW_CW(KC_WH_U, KC_WH_D),
@@ -437,7 +437,7 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
         ENCODER_CCW_CW(KC_WH_U, KC_WH_D),
         ENCODER_CCW_CW(KC_WH_U, KC_WH_D)
     },
-    [MOUSE] =   { 
+    [TRACKBALL] =   { 
         ENCODER_CCW_CW(KC_ESC, KC_TAB),
         ENCODER_CCW_CW(REDO, UNDO),
         ENCODER_CCW_CW(KC_WH_U, KC_WH_D),
