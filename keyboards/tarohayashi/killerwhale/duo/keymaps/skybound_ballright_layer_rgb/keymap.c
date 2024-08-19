@@ -32,12 +32,17 @@ enum combos {
 // skybound changes
 // null bind/canceling keycodes for sharper 
 // movement in gaming layer
-enum null_cancel_keycodes {
+enum custom_keycodes {
+    // null cancel keycodes
     NC_W = SAFE_RANGE,
     NC_A,
     NC_S,
     NC_D,
-    NC_ON
+    NC_ON,
+    // placeholder game keycodes (to avoid the issue of combo collision)
+    // these behave the same as spc and tab, but will be identified differently
+    GAME_SPC,
+    GAME_TAB
 };
 
 bool nc_on = false;
@@ -54,7 +59,7 @@ const uint16_t PROGMEM mse_combo[] = {KC_BTN1, KC_BTN2, COMBO_END};
 const uint16_t PROGMEM sym_combo[] = {KC_RPRN, KC_UNDS, COMBO_END};
 const uint16_t PROGMEM num_combo[] = {KC_0, KC_MINS, COMBO_END};
 const uint16_t PROGMEM fun_combo[] = {KC_SPC, KC_TAB, COMBO_END};
-const uint16_t PROGMEM game_combo[] = {KC_SPC, KC_TAB, COMBO_END};
+const uint16_t PROGMEM game_combo[] = {GAME_SPC, GAME_TAB, COMBO_END};
 combo_t key_combos[] = {
     [BASE_L] = COMBO(base_esc_combo, LT(MEDIA, KC_ESC)),
     [BASE_R] = COMBO(base_del_combo, LT(FUN, KC_DEL)),
@@ -96,7 +101,7 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
             }
             return false;
         case FUN_L:
-            if (layer_state_is(FUN) && !layer_state_is(GAME)) {
+            if (layer_state_is(FUN)) {
                 return true;
             }
             return false;
@@ -116,9 +121,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                         KC_MPLY,
         // 側面スイッチ
         LT(NAV, KC_SPC),LT(_MOUSE, KC_TAB),                
-        // 十字キーorジョイスティック                                                       // ジョイスティックスイッチ
+        // 十字キーorジョイスティック                                                     // ジョイスティックスイッチ
         KC_UP,          KC_DOWN,        KC_LEFT,        KC_RIGHT,                       KC_ENT,      
-        // 追加スイッチ                                                                   // トグルスイッチ
+        // 追加スイッチ                                                                  // トグルスイッチ
         KC_NO,          KC_NO,                                                          KC_NO,
         // 右手
         KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_BSLS,
@@ -128,27 +133,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                         KC_PSCR,
         // 側面スイッチ
         LT(SYM, KC_ENT),LT(NUM, KC_BSPC),                   
-        // 十字キーorジョイスティック                                                       // ジョイスティックスイッチ
-        KC_UP,              KC_DOWN,        KC_LEFT,        KC_RIGHT,                   KC_ENT,     
-        // 追加スイッチ                                                                   // トグルスイッチ
-        KC_MS_BTN2,         KC_MS_BTN1,                                                 NC_ON
+        // 十字キーorジョイスティック                                                     // ジョイスティックスイッチ
+        KC_UP,          KC_DOWN,        KC_LEFT,        KC_RIGHT,                       KC_ENT,     
+        // 追加スイッチ                                                                  // トグルスイッチ
+        KC_MS_BTN2,     KC_MS_BTN1,                                                     NC_ON
     ),
     [GAME] = LAYOUT(
         // 左手 
         // 天面スイッチ
         // in this case, the only change to qwerty is a slight shift to put QE-WASD in the middle - else, all is the same
-        // also, since we already have tab in thumbs, esc is here
         TO(BASE),       KC_1,           KC_2,           KC_3,           KC_4,           KC_5,
         KC_LCTL,        KC_R,           KC_Q,           NC_W,           KC_E,           KC_T,
         KC_LSFT,        KC_F,           NC_A,           NC_S,           NC_D,           KC_G,
                         KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,
                                         KC_LALT,
         // 側面スイッチ
-        // TODO minor bug where spc and tab here produce MENU instead of esc
-        KC_SPC,         KC_TAB,                
-        // 十字キーorジョイスティック                                                       // ジョイスティックスイッチ
+        GAME_SPC,       GAME_TAB,                
+        // 十字キーorジョイスティック                                                     // ジョイスティックスイッチ
         KC_UP,          KC_DOWN,        KC_LEFT,        KC_RIGHT,                       KC_ENT,      
-        // 追加スイッチ                                                                   // トグルスイッチ
+        // 追加スイッチ                                                                  // トグルスイッチ
         KC_NO,          KC_NO,                                                          KC_NO,
         // 右手
         // how useful are j and k? in this case, replace with the mouse buttons, and move j, k elsewhere
@@ -159,9 +162,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                         KC_MPLY,
         // 側面スイッチ
         KC_ENT,         KC_BSPC,
-        // 十字キーorジョイスティック                                                       // ジョイスティックスイッチ
+        // 十字キーorジョイスティック                                                    // ジョイスティックスイッチ
         KC_UP,          KC_DOWN,        KC_LEFT,        KC_RIGHT,                      KC_ENT,
-        // 追加スイッチ                                                                  // トグルスイッチ
+        // 追加スイッチ                                                                 // トグルスイッチ
         // in case we ever need j and k again, they are now here
         KC_J,           KC_K,                                                          NC_ON
     ),
@@ -175,9 +178,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 KC_NO,
         // 側面スイッチ
         KC_NO,      KC_NO,                
-        // 十字キーorジョイスティック                                   // ジョイスティックスイッチ
+        // 十字キーorジョイスティック                                 // ジョイスティックスイッチ
         KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,                KC_TRNS,      
-        // 追加スイッチ                                               // トグルスイッチ
+        // 追加スイッチ                                              // トグルスイッチ
         KC_TRNS,    KC_TRNS,                                        KC_TRNS,
         // 右手
         KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_NO,
@@ -187,9 +190,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             KC_NO,
         // 側面スイッチ
         KC_MSTP,    KC_MPLY,                
-        // 十字キーorジョイスティック                                   // ジョイスティックスイッチ
+        // 十字キーorジョイスティック                                 // ジョイスティックスイッチ
         KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,                KC_TRNS,      
-        // 追加スイッチ                                               // トグルスイッチ
+        // 追加スイッチ                                              // トグルスイッチ
         KC_TRNS,    KC_TRNS,                                        KC_NO
     ),
     [NAV] = LAYOUT(
@@ -202,9 +205,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 KC_NO,
         // 側面スイッチ
         KC_NO,      KC_NO,                
-        // 十字キーorジョイスティック                                   // ジョイスティックスイッチ
+        // 十字キーorジョイスティック                                 // ジョイスティックスイッチ
         KC_PGUP,    KC_PGDN,    KC_HOME,    KC_END,                 KC_TRNS,      
-        // 追加スイッチ                                               // トグルスイッチ
+        // 追加スイッチ                                              // トグルスイッチ
         KC_TRNS,    KC_TRNS,                                        KC_TRNS,
         // 右手
         KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_NO,
@@ -214,9 +217,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             KC_NO,
         // 側面スイッチ
         KC_ENT,     KC_BSPC,                
-        // 十字キーorジョイスティック                                   // ジョイスティックスイッチ
+        // 十字キーorジョイスティック                                 // ジョイスティックスイッチ
         KC_PGUP,    KC_PGDN,    KC_HOME,    KC_END,                 KC_TRNS,      
-        // 追加スイッチ                                               // トグルスイッチ
+        // 追加スイッチ                                              // トグルスイッチ
         KC_TRNS,    KC_TRNS,                                        KC_TRNS
     ),
     [_MOUSE] = LAYOUT(
@@ -229,9 +232,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 KC_NO,
         // 側面スイッチ
         KC_NO,      KC_NO,                
-        // 十字キーorジョイスティック                                   // ジョイスティックスイッチ
+        // 十字キーorジョイスティック                                 // ジョイスティックスイッチ
         KC_UP,      KC_DOWN,    KC_LEFT,    KC_RIGHT,               KC_TRNS,      
-        // 追加スイッチ                                               // トグルスイッチ
+        // 追加スイッチ                                              // トグルスイッチ
         KC_TRNS,    KC_TRNS,                                        KC_TRNS,
         // 右手
         KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_NO,
@@ -241,9 +244,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             KC_NO,
         // 側面スイッチ 
         KC_BTN1,    KC_BTN2,                
-        // 十字キーorジョイスティック                                   // ジョイスティックスイッチ
+        // 十字キーorジョイスティック                                 // ジョイスティックスイッチ
         KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,                KC_TRNS,      
-        // 追加スイッチ                                               // トグルスイッチ
+        // 追加スイッチ                                              // トグルスイッチ
         KC_TRNS,    KC_TRNS,                                        KC_TRNS   
     ),
     [SYM] = LAYOUT(
@@ -256,9 +259,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 KC_NO,
         // 側面スイッチ
         KC_RPRN,    KC_UNDS,                
-        // 十字キーorジョイスティック                                   // ジョイスティックスイッチ
+        // 十字キーorジョイスティック                                 // ジョイスティックスイッチ
         KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,                KC_TRNS,      
-        // 追加スイッチ                                               // トグルスイッチ
+        // 追加スイッチ                                              // トグルスイッチ
         KC_TRNS,    KC_TRNS,                                        KC_TRNS,
         // 右手
         KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_NO,
@@ -268,9 +271,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             KC_NO,
         // 側面スイッチ
         KC_NO,      KC_NO,                
-        // 十字キーorジョイスティック                                   // ジョイスティックスイッチ
+        // 十字キーorジョイスティック                                 // ジョイスティックスイッチ
         KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,                KC_TRNS,      
-        // 追加スイッチ                                               // トグルスイッチ
+        // 追加スイッチ                                              // トグルスイッチ
         KC_TRNS,    KC_TRNS,                                        KC_TRNS
     ),
     [NUM] = LAYOUT(
@@ -283,9 +286,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 KC_NO,
         // 側面スイッチ
         KC_0,       KC_MINS,                
-        // 十字キーorジョイスティック                                   // ジョイスティックスイッチ
+        // 十字キーorジョイスティック                                 // ジョイスティックスイッチ
         KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,                KC_TRNS,      
-        // 追加スイッチ                                               // トグルスイッチ
+        // 追加スイッチ                                              // トグルスイッチ
         KC_TRNS,    KC_TRNS,                                        KC_TRNS,
         // 右手
         KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_NO,
@@ -295,9 +298,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             KC_NO,
         // 側面スイッチ
         KC_NO,      KC_NO,                
-        // 十字キーorジョイスティック                                   // ジョイスティックスイッチ
+        // 十字キーorジョイスティック                                 // ジョイスティックスイッチ
         KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,                KC_TRNS,      
-        // 追加スイッチ                                               // トグルスイッチ
+        // 追加スイッチ                                              // トグルスイッチ
         KC_TRNS,    KC_TRNS,                                        KC_TRNS
     ),
     [FUN] = LAYOUT(
@@ -310,9 +313,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 KC_NO,
         // 側面スイッチ
         KC_SPC,     KC_TAB,                
-        // 十字キーorジョイスティック                                   // ジョイスティックスイッチ
+        // 十字キーorジョイスティック                                 // ジョイスティックスイッチ
         KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,                KC_TRNS,      
-        // 追加スイッチ                                               // トグルスイッチ
+        // 追加スイッチ                                              // トグルスイッチ
         KC_TRNS,    KC_TRNS,                                        KC_TRNS,
         // 右手
         KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_NO,
@@ -322,37 +325,31 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             KC_NO,
         // 側面スイッチ
         KC_NO,      KC_NO,                
-        // 十字キーorジョイスティック                                   // ジョイスティックスイッチ
+        // 十字キーorジョイスティック                                 // ジョイスティックスイッチ
         KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,                KC_TRNS,      
-        // 追加スイッチ                                               // トグルスイッチ
+        // 追加スイッチ                                              // トグルスイッチ
         KC_TRNS,    KC_TRNS,                                        KC_TRNS
     ),
-    // TODO find some way to keep my precious homerow mods here?
     [MOUSE] = LAYOUT(
         // 左手 
         // 天面スイッチ
-        // change here - removal of r_chmod as it only introduces more confusion
-        //XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, R_CHMOD,
-        XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, CPI_I,
-        // change here - no auto mouse, as it introduces the risk of randomly changing settings
-        //AUTO_MOUSE,    XXXXXXX, XXXXXXX, R_ANG_D, R_INV,   R_ANG_I,
-        // change here - added left hand modifiers in case we need to click stuff
-        KC_LGUI,    XXXXXXX, XXXXXXX, R_ANG_D, R_INV,   R_ANG_I,
-                    KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX, CPI_D,
-                             INV_SCRL,
+        XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,
+        XXXXXXX,    XXXXXXX,    XXXXXXX,    R_ANG_D,    R_ANG_I,    CPI_I,
+        KC_LSFT,    KC_LGUI,    KC_LALT,    KC_LCTL,    R_INV,      CPI_D,
+                    XXXXXXX,    MOD_SCRL,   XXXXXXX,    XXXXXXX,    XXXXXXX,
+                                INV_SCRL,
         // 側面スイッチ
         KC_NO,      KC_NO,                
-        // 十字キーorジョイスティック                                   // ジョイスティックスイッチ
+        // 十字キーorジョイスティック                                 // ジョイスティックスイッチ
         KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,                KC_TRNS,      
-        // 追加スイッチ                                               // トグルスイッチ
+        // 追加スイッチ                                              // トグルスイッチ
         KC_TRNS,    KC_TRNS,                                        KC_TRNS,
         // 右手
-        _______,    _______,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX,    XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        MOD_SCRL,   KC_MS_BTN1, KC_MS_BTN2, KC_MS_BTN3, MOD_SCRL, XXXXXXX,
-        XXXXXXX,    KC_RSFT,    KC_RCTL, KC_LALT, KC_RGUI,
-                                   XXXXXXX,
+        _______,    _______,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,
+        XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,
+        MOD_SCRL,   KC_MS_BTN1, KC_MS_BTN2, KC_MS_BTN3, MOD_SCRL,   XXXXXXX,
+        XXXXXXX,    KC_RSFT,    KC_RCTL,    KC_LALT,    KC_RGUI,
+                                            XXXXXXX,
         XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,
         XXXXXXX, XXXXXXX,                            XXXXXXX
@@ -572,6 +569,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
             } else {
                 unregister_code(KC_D);
             }
+        }
+        return false;
+        break;
+    case GAME_SPC:
+        if (record->event.pressed) {
+            register_code(KC_SPC);
+        } else {
+            unregister_code(KC_SPC);
+        }
+        return false;
+        break;
+    case GAME_TAB:
+        if (record->event.pressed) {
+            register_code(KC_TAB);
+        } else {
+            unregister_code(KC_TAB);
         }
         return false;
         break;
